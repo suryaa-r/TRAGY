@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - TRAGY</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .cart-page {
+            margin-top: 120px;
+            min-height: 70vh;
+        }
+        
+        .cart-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+        
+        .cart-items {
+            background: white;
+        }
+        
+        .cart-item-row {
+            display: grid;
+            grid-template-columns: 100px 1fr auto auto auto;
+            gap: 2rem;
+            align-items: center;
+            padding: 2rem 0;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-item-row:hover {
+            background: rgba(176, 0, 32, 0.02);
+            transform: translateX(5px);
+        }
+        
+        .item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .item-details h3 {
+            margin-bottom: 0.5rem;
+            color: var(--matte-black);
+        }
+        
+        .item-details p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .quantity-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .quantity-btn:hover {
+            background: var(--light-gray);
+        }
+        
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            border: none;
+            padding: 0.5rem;
+        }
+        
+        .item-price {
+            font-weight: 600;
+            color: var(--primary-red);
+            font-size: 1.1rem;
+        }
+        
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .remove-btn:hover {
+            background: #f5f5f5;
+            color: var(--primary-red);
+            transform: scale(1.1);
+        }
+        
+        .cart-summary {
+            background: var(--light-gray);
+            padding: 2rem;
+            border-radius: 12px;
+            height: fit-content;
+            position: sticky;
+            top: 140px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--matte-black);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--primary-red);
+        }
+        
+        .promo-code {
+            margin: 2rem 0;
+        }
+        
+        .promo-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .promo-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .promo-input button {
+            padding: 0.75rem 1.5rem;
+            background: var(--matte-black);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .promo-input button:hover {
+            background: var(--primary-red);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+        
+        .empty-cart svg {
+            margin-bottom: 2rem;
+            opacity: 0.3;
+        }
+        
+        .continue-shopping {
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .cart-item-row {
+                grid-template-columns: 80px 1fr;
+                gap: 1rem;
+                text-align: left;
+            }
+            
+            .item-actions {
+                grid-column: 1 / -1;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 1rem;
+                padding-top: 1rem;
+                border-top: 1px solid #eee;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo-container">
+                <img src="images/logo.png" alt="TRAGY Logo" class="logo-image">
+                <span class="logo-text">TRAGY</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/shop">Shop</a></li>
+                <li><a href="/collections">Collections</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="search-icon" onclick="toggleSearch()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </div>
+                <div class="user-icon" onclick="toggleUserMenu()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <div class="cart-icon" style="color: var(--primary-red);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="m16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="cart-page">
+        <div class="container">
+            <h1 style="margin-bottom: 3rem; font-size: 2.5rem; color: var(--matte-black);">Shopping Cart</h1>
+            
+            <div class="cart-container" id="cartContainer">
+                <div class="cart-items">
+                    <div id="cartItemsList">
+                        <!-- Cart items will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="cart-summary">
+                    <h3 style="margin-bottom: 2rem; color: var(--matte-black);">Order Summary</h3>
+                    
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">$0</span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Shipping:</span>
+                        <span id="shipping">Free</span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Tax:</span>
+                        <span id="tax">$0</span>
+                    </div>
+                    
+                    <div class="promo-code">
+                        <h4 style="margin-bottom: 1rem;">Promo Code</h4>
+                        <div class="promo-input">
+                            <input type="text" id="promoInput" placeholder="Enter code">
+                            <button onclick="applyPromoCode()">Apply</button>
+                        </div>
+                        <div id="promoMessage" style="margin-top: 0.5rem; font-size: 0.9rem;"></div>
+                    </div>
+                    
+                    <div class="summary-row" id="discountRow" style="display: none; color: var(--primary-red);">
+                        <span>Discount:</span>
+                        <span id="discount">-$0</span>
+                    </div>
+                    
+                    <div class="summary-total">
+                        <span>Total:</span>
+                        <span id="orderTotal">$0</span>
+                    </div>
+                    
+                    <a href="/checkout" class="btn" style="width: 100%; text-align: center; margin-top: 2rem; font-size: 1.1rem;">Proceed to Checkout</a>\n                    \n                    <div style=\"margin-top: 2rem; padding: 1rem; background: rgba(176, 0, 32, 0.1); border-radius: 8px; text-align: center;\">\n                        <p style=\"font-size: 0.9rem; color: var(--dark-gray); margin-bottom: 0.5rem;\"><strong>Free Shipping</strong> on orders over $200</p>\n                        <p style=\"font-size: 0.8rem; color: #666;\">Secure checkout • 30-day returns • Customer support</p>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </main>\n\n    <!-- Mobile Menu -->\n    <div class=\"mobile-menu\" id=\"mobileMenu\">\n        <div class=\"mobile-menu-header\">\n            <a href=\"/\" class=\"logo-container\">\n                <img src=\"images/logo.png\" alt=\"TRAGY Logo\" class=\"logo-image\">\n                <span class=\"logo-text\">TRAGY</span>\n            </a>\n            <button class=\"cart-close\" onclick=\"toggleMobileMenu()\">&times;</button>\n        </div>\n        <ul class=\"mobile-nav-links\">\n            <li><a href=\"/shop\">Shop</a></li>\n            <li><a href=\"/collections\">Collections</a></li>\n            <li><a href=\"/about\">About</a></li>\n            <li><a href=\"/contact\">Contact</a></li>\n        </ul>\n    </div>\n\n    <footer class=\"footer\">\n        <div class=\"container\">\n            <div class=\"footer-content\">\n                <div class=\"footer-section\">\n                    <h3>Shop</h3>\n                    <a href=\"/shop\">All Products</a>\n                    <a href=\"/collections\">Collections</a>\n                    <a href=\"/new-arrivals\">New Arrivals</a>\n                    <a href=\"/sale\">Sale</a>\n                </div>\n                <div class=\"footer-section\">\n                    <h3>Support</h3>\n                    <a href=\"/contact\">Contact Us</a>\n                    <a href=\"/shipping\">Shipping Info</a>\n                    <a href=\"/returns\">Returns</a>\n                    <a href=\"/size-guide\">Size Guide</a>\n                </div>\n                <div class=\"footer-section\">\n                    <h3>Company</h3>\n                    <a href=\"/about\">About TRAGY</a>\n                    <a href=\"/careers\">Careers</a>\n                    <a href=\"/press\">Press</a>\n                    <a href=\"/sustainability\">Sustainability</a>\n                </div>\n                <div class=\"footer-section\">\n                    <h3>Connect</h3>\n                    <a href=\"#\">Instagram</a>\n                    <a href=\"#\">Twitter</a>\n                    <a href=\"#\">Facebook</a>\n                    <a href=\"/newsletter\">Newsletter</a>\n                </div>\n            </div>\n            <div class=\"footer-bottom\">\n                <p>&copy; 2024 TRAGY. All rights reserved.</p>\n            </div>\n        </div>\n    </footer>\n\n    <script src=\"js/main.js\"></script>\n    <script>\n        // Cart page specific functionality\n        let appliedPromo = null;\n        const promoCodes = {\n            'WELCOME10': { discount: 0.1, type: 'percentage', description: '10% off your order' },\n            'SAVE20': { discount: 20, type: 'fixed', description: '$20 off your order' },\n            'FREESHIP': { discount: 0, type: 'shipping', description: 'Free shipping' }\n        };\n        \n        document.addEventListener('DOMContentLoaded', function() {\n            loadCartPage();\n            updateCartSummary();\n        });\n        \n        function loadCartPage() {\n            const cart = JSON.parse(localStorage.getItem('cart')) || [];\n            const cartItemsList = document.getElementById('cartItemsList');\n            \n            if (cart.length === 0) {\n                document.getElementById('cartContainer').innerHTML = `\n                    <div class=\"empty-cart\" style=\"grid-column: 1 / -1;\">\n                        <svg width=\"120\" height=\"120\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1\">\n                            <path d=\"M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z\"></path>\n                            <line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"></line>\n                            <path d=\"m16 10a4 4 0 0 1-8 0\"></path>\n                        </svg>\n                        <h2 style=\"margin-bottom: 1rem; color: var(--matte-black);\">Your cart is empty</h2>\n                        <p style=\"margin-bottom: 2rem; font-size: 1.1rem;\">Looks like you haven't added any items to your cart yet.</p>\n                        <a href=\"/shop\" class=\"btn continue-shopping\">Continue Shopping</a>\n                    </div>\n                `;\n                return;\n            }\n            \n            cartItemsList.innerHTML = cart.map(item => `\n                <div class=\"cart-item-row\" data-id=\"${item.id}\" data-size=\"${item.size}\">\n                    <div class=\"item-image\">\n                        <div style=\"background: linear-gradient(45deg, var(--primary-red), var(--warm-beige)); height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; text-align: center;\">${item.image}</div>\n                    </div>\n                    \n                    <div class=\"item-details\">\n                        <h3>${item.name}</h3>\n                        <p>Size: ${item.size}</p>\n                        <p>SKU: TRG-${item.id.toString().padStart(3, '0')}</p>\n                    </div>\n                    \n                    <div class=\"quantity-controls\">\n                        <button class=\"quantity-btn\" onclick=\"updateQuantity(${item.id}, '${item.size}', -1)\">-</button>\n                        <input type=\"number\" class=\"quantity-input\" value=\"${item.quantity}\" min=\"1\" onchange=\"setQuantity(${item.id}, '${item.size}', this.value)\">\n                        <button class=\"quantity-btn\" onclick=\"updateQuantity(${item.id}, '${item.size}', 1)\">+</button>\n                    </div>\n                    \n                    <div class=\"item-price\">$${item.price * item.quantity}</div>\n                    \n                    <button class=\"remove-btn\" onclick=\"removeItem(${item.id}, '${item.size}')\" title=\"Remove item\">&times;</button>\n                    \n                    <div class=\"item-actions\" style=\"display: none;\">\n                        <div class=\"quantity-controls\">\n                            <button class=\"quantity-btn\" onclick=\"updateQuantity(${item.id}, '${item.size}', -1)\">-</button>\n                            <input type=\"number\" class=\"quantity-input\" value=\"${item.quantity}\" min=\"1\" onchange=\"setQuantity(${item.id}, '${item.size}', this.value)\">\n                            <button class=\"quantity-btn\" onclick=\"updateQuantity(${item.id}, '${item.size}', 1)\">+</button>\n                        </div>\n                        <div class=\"item-price\">$${item.price * item.quantity}</div>\n                        <button class=\"remove-btn\" onclick=\"removeItem(${item.id}, '${item.size}')\" title=\"Remove item\">&times;</button>\n                    </div>\n                </div>\n            `).join('');\n        }\n        \n        function updateQuantity(productId, size, change) {\n            const cart = JSON.parse(localStorage.getItem('cart')) || [];\n            const item = cart.find(item => item.id === productId && item.size === size);\n            \n            if (item) {\n                item.quantity += change;\n                if (item.quantity <= 0) {\n                    removeItem(productId, size);\n                } else {\n                    localStorage.setItem('cart', JSON.stringify(cart));\n                    loadCartPage();\n                    updateCartSummary();\n                    updateCartCount();\n                }\n            }\n        }\n        \n        function setQuantity(productId, size, quantity) {\n            const cart = JSON.parse(localStorage.getItem('cart')) || [];\n            const item = cart.find(item => item.id === productId && item.size === size);\n            \n            if (item) {\n                item.quantity = Math.max(1, parseInt(quantity) || 1);\n                localStorage.setItem('cart', JSON.stringify(cart));\n                loadCartPage();\n                updateCartSummary();\n                updateCartCount();\n            }\n        }\n        \n        function removeItem(productId, size) {\n            let cart = JSON.parse(localStorage.getItem('cart')) || [];\n            cart = cart.filter(item => !(item.id === productId && item.size === size));\n            localStorage.setItem('cart', JSON.stringify(cart));\n            \n            loadCartPage();\n            updateCartSummary();\n            updateCartCount();\n            showNotification('Item removed from cart', 'info');\n        }\n        \n        function updateCartSummary() {\n            const cart = JSON.parse(localStorage.getItem('cart')) || [];\n            const subtotalEl = document.getElementById('subtotal');\n            const shippingEl = document.getElementById('shipping');\n            const taxEl = document.getElementById('tax');\n            const discountEl = document.getElementById('discount');\n            const discountRow = document.getElementById('discountRow');\n            const orderTotalEl = document.getElementById('orderTotal');\n            \n            if (!subtotalEl) return;\n            \n            let subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);\n            let shipping = subtotal >= 200 ? 0 : 15;\n            let discount = 0;\n            \n            // Apply promo code discount\n            if (appliedPromo) {\n                const promo = promoCodes[appliedPromo];\n                if (promo.type === 'percentage') {\n                    discount = subtotal * promo.discount;\n                } else if (promo.type === 'fixed') {\n                    discount = Math.min(promo.discount, subtotal);\n                } else if (promo.type === 'shipping') {\n                    shipping = 0;\n                }\n            }\n            \n            const tax = Math.round((subtotal - discount) * 0.08 * 100) / 100;\n            const total = subtotal - discount + shipping + tax;\n            \n            subtotalEl.textContent = `$${subtotal}`;\n            shippingEl.textContent = shipping === 0 ? 'Free' : `$${shipping}`;\n            taxEl.textContent = `$${tax}`;\n            \n            if (discount > 0) {\n                discountEl.textContent = `-$${discount}`;\n                discountRow.style.display = 'flex';\n            } else {\n                discountRow.style.display = 'none';\n            }\n            \n            orderTotalEl.textContent = `$${total}`;\n        }\n        \n        function applyPromoCode() {\n            const promoInput = document.getElementById('promoInput');\n            const promoMessage = document.getElementById('promoMessage');\n            const code = promoInput.value.trim().toUpperCase();\n            \n            if (!code) {\n                promoMessage.textContent = 'Please enter a promo code';\n                promoMessage.style.color = '#dc3545';\n                return;\n            }\n            \n            if (promoCodes[code]) {\n                appliedPromo = code;\n                promoMessage.textContent = `✓ ${promoCodes[code].description} applied!`;\n                promoMessage.style.color = 'var(--primary-red)';\n                promoInput.disabled = true;\n                updateCartSummary();\n                showNotification('Promo code applied!', 'success');\n            } else {\n                promoMessage.textContent = 'Invalid promo code';\n                promoMessage.style.color = '#dc3545';\n                showNotification('Invalid promo code', 'error');\n            }\n        }\n        \n        // Make functions globally available\n        window.updateQuantity = updateQuantity;\n        window.setQuantity = setQuantity;\n        window.removeItem = removeItem;\n        window.applyPromoCode = applyPromoCode;\n    </script>\n</body>\n</html>

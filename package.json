@@ -1,0 +1,31 @@
+{
+  "name": "tragy-admin-dashboard",
+  "version": "1.0.0",
+  "description": "TRAGY Fashion Store with Admin Dashboard",
+  "main": "server-with-db.js",
+  "scripts": {
+    "start": "node server-with-db.js",
+    "dev": "nodemon server-with-db.js",
+    "install-deps": "npm install"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "sqlite3": "^5.1.6",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "ecommerce",
+    "fashion",
+    "admin",
+    "dashboard",
+    "nodejs",
+    "sqlite"
+  ],
+  "author": "TRAGY Team",
+  "license": "MIT"
+}

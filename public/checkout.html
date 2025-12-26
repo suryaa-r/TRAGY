@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - TRAGY</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .checkout-form {
+            background: white;
+        }
+        
+        .form-section {
+            margin-bottom: 3rem;
+        }
+        
+        .form-section h3 {
+            margin-bottom: 1.5rem;
+            color: var(--matte-black);
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-red);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .order-summary {
+            background: var(--light-gray);
+            padding: 2rem;
+            border-radius: 8px;
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--matte-black);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--primary-red);
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .payment-method {
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-method:hover,
+        .payment-method.selected {
+            border-color: var(--primary-red);
+            background: rgba(176, 0, 32, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 1rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo-container">
+                <img src="images/logo.png" alt="TRAGY Logo" class="logo-image">
+                <span class="logo-text">TRAGY</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/shop">Shop</a></li>
+                <li><a href="/collections">Collections</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main style="margin-top: 100px;">
+        <div class="checkout-container">
+            <div class="checkout-form">
+                <h1 style="margin-bottom: 2rem; color: var(--matte-black);">Checkout</h1>
+                
+                <form id="checkoutForm">
+                    <div class="form-section">
+                        <h3>Shipping Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address">Street Address</label>
+                            <input type="text" id="address" name="address" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="zipCode">ZIP Code</label>
+                                <input type="text" id="zipCode" name="zipCode" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <select id="country" name="country" required>
+                                <option value="">Select Country</option>
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="AU">Australia</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Payment Method</h3>
+                        <div class="payment-methods">
+                            <div class="payment-method selected" data-method="card">
+                                <strong>Card</strong>
+                            </div>
+                            <div class="payment-method" data-method="paypal">
+                                <strong>PayPal</strong>
+                            </div>
+                            <div class="payment-method" data-method="apple">
+                                <strong>Apple Pay</strong>
+                            </div>
+                        </div>
+                        
+                        <div id="cardDetails" style="margin-top: 2rem;">
+                            <div class="form-group">
+                                <label for="cardNumber">Card Number</label>
+                                <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456">
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="expiryDate">Expiry Date</label>
+                                    <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cvv">CVV</label>
+                                    <input type="text" id="cvv" name="cvv" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%; font-size: 1.1rem; padding: 1.2rem;">
+                        Complete Order
+                    </button>
+                </form>
+            </div>
+            
+            <div class="order-summary">
+                <h3 style="margin-bottom: 2rem; color: var(--matte-black);">Order Summary</h3>
+                
+                <div id="orderItems">
+                    <!-- Order items will be populated by JavaScript -->
+                </div>
+                
+                <div class="summary-item">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">$0</span>
+                </div>
+                
+                <div class="summary-item">
+                    <span>Shipping:</span>
+                    <span id="shipping">Free</span>
+                </div>
+                
+                <div class="summary-item">
+                    <span>Tax:</span>
+                    <span id="tax">$0</span>
+                </div>
+                
+                <div class="summary-total">
+                    <span>Total:</span>
+                    <span id="orderTotal">$0</span>
+                </div>
+                
+                <div style="margin-top: 2rem; padding: 1rem; background: rgba(176, 0, 32, 0.1); border-radius: 4px; font-size: 0.9rem; color: var(--dark-gray);">
+                    <strong>Secure Checkout</strong><br>
+                    Your payment information is encrypted and secure.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Checkout page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderSummary();
+            initializePaymentMethods();
+            initializeForm();
+        });
+        
+        function loadOrderSummary() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const orderItems = document.getElementById('orderItems');
+            const subtotalEl = document.getElementById('subtotal');
+            const taxEl = document.getElementById('tax');
+            const orderTotalEl = document.getElementById('orderTotal');
+            
+            if (cart.length === 0) {
+                orderItems.innerHTML = '<p style="color: #999;">No items in cart</p>';
+                return;
+            }
+            
+            let subtotal = 0;
+            orderItems.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                return `
+                    <div class="summary-item">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <small>Size: ${item.size} | Qty: ${item.quantity}</small>
+                        </div>
+                        <span>$${itemTotal}</span>
+                    </div>
+                `;
+            }).join('');
+            
+            const tax = Math.round(subtotal * 0.08 * 100) / 100; // 8% tax
+            const total = subtotal + tax;
+            
+            subtotalEl.textContent = `$${subtotal}`;
+            taxEl.textContent = `$${tax}`;
+            orderTotalEl.textContent = `$${total}`;
+        }
+        
+        function initializePaymentMethods() {
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            const cardDetails = document.getElementById('cardDetails');
+            
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', function() {
+                    paymentMethods.forEach(m => m.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    const methodType = this.getAttribute('data-method');
+                    cardDetails.style.display = methodType === 'card' ? 'block' : 'none';
+                });
+            });
+        }
+        
+        function initializeForm() {
+            const form = document.getElementById('checkoutForm');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.innerHTML = '<div class="loading"></div> Processing...';
+                submitBtn.disabled = true;
+                
+                // Simulate order processing
+                setTimeout(() => {
+                    alert('Order placed successfully! Thank you for shopping with TRAGY.');
+                    localStorage.removeItem('cart');
+                    window.location.href = '/';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

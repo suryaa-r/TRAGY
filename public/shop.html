@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - TRAGY</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo-container">
+                <img src="images/logo.png" alt="TRAGY Logo" class="logo-image">
+                <span class="logo-text">TRAGY</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/shop" class="active">Shop</a></li>
+                <li><a href="/collections">Collections</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="search-icon" onclick="toggleSearch()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </div>
+                <div class="user-icon" onclick="toggleUserMenu()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <div class="cart-icon" onclick="toggleCart()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="m16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main style="padding-top: 120px;">
+        <div class="container">
+            <h1 style="font-family: 'Bebas Neue', cursive; font-size: 3rem; text-align: center; margin: 2rem 0;">Streetwear Collection</h1>
+            
+            <div class="product-grid" id="shopProductGrid" style="margin: 3rem 0;">
+                <!-- Products will be loaded dynamically -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">&times;</button>
+        </div>
+        <div id="cartItems">
+            <p style="color: #999; text-align: center; margin-top: 2rem;">Your cart is empty</p>
+        </div>
+        <div class="cart-total" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+            <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem;">
+                <span>Total: </span>
+                <span id="cartTotal">₹0</span>
+            </div>
+            <a href="/checkout" class="btn" style="width: 100%; text-align: center; margin-top: 1rem;">Checkout</a>
+        </div>
+    </div>
+
+    <script src="js/main-fixed.js"></script>
+    <script src="js/header-animations.js"></script>
+    <script src="js/image-loader.js"></script>
+    <script>
+        // Load products for shop page
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadShopProducts();
+        });
+        
+        async function loadShopProducts() {
+            try {
+                const response = await fetch('/api/public/products');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const productGrid = document.getElementById('shopProductGrid');
+                    productGrid.innerHTML = data.products.map(product => `
+                        <div class="product-card" onclick="viewProduct(${product.id})" data-category="${product.category}">
+                            <div class="product-image">
+                                <img src="${product.image || 'images/loading.png'}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">${product.name}</h3>
+                                <p class="product-price">₹${product.price}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Failed to load products:', error);
+            }
+        }
+    </script>
+</body>
+</html>

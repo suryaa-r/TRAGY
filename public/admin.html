@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRAGY Admin Dashboard</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-header">
+                <img src="images/logo.png" alt="TRAGY Logo" class="logo">
+                <h1>TRAGY Admin</h1>
+                <p>Dashboard Login</p>
+            </div>
+            
+            <div class="login-tabs">
+                <button class="tab-btn active" onclick="showLogin()">Sign In</button>
+                <button class="tab-btn" onclick="showRegister()">Create Account</button>
+            </div>
+            
+            <!-- Sign In Form -->
+            <form id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="auth-btn">Sign In</button>
+            </form>
+            
+            <!-- Create Account Form -->
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select id="registerRole" required>
+                        <option value="admin">Admin</option>
+                        <option value="manager">Manager</option>
+                        <option value="staff">Staff</option>
+                    </select>
+                </div>
+                <button type="submit" class="auth-btn">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard hidden">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="images/logo.png" alt="TRAGY Logo">
+                <h2>TRAGY Admin</h2>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="#" onclick="showSection('overview')" class="nav-link active">📊 Overview</a></li>
+                <li><a href="#" onclick="showSection('products')" class="nav-link">📦 Products</a></li>
+                <li><a href="#" onclick="showSection('orders')" class="nav-link">🛒 Orders</a></li>
+                <li><a href="#" onclick="showSection('customers')" class="nav-link">👥 Customers</a></li>
+                <li><a href="#" onclick="showSection('analytics')" class="nav-link">📈 Analytics</a></li>
+                <li><a href="#" onclick="showSection('settings')" class="nav-link">⚙️ Settings</a></li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <span id="currentUser">Admin User</span>
+                    <button onclick="logout()" class="logout-btn">Logout</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h1 id="sectionTitle">Dashboard Overview</h1>
+                <div class="header-actions">
+                    <div class="sync-status" id="syncStatus" style="margin-right: 1rem; padding: 0.5rem 1rem; border-radius: 20px; background: #28a745; color: white; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="width: 8px; height: 8px; background: white; border-radius: 50%; animation: pulse 2s infinite;"></span>
+                        Website Synced
+                    </div>
+                    <button class="btn-primary" onclick="showAddProduct()">+ Add Product</button>
+                </div>
+            </header>
+
+            <!-- Overview Section -->
+            <section id="overviewSection" class="content-section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Sales</h3>
+                        <p class="stat-number" id="totalSales">₹0</p>
+                        <span class="stat-change">+12% from last month</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Orders</h3>
+                        <p class="stat-number" id="totalOrders">0</p>
+                        <span class="stat-change">+8% from last month</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Products</h3>
+                        <p class="stat-number" id="totalProducts">0</p>
+                        <span class="stat-change">+3 new this week</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Customers</h3>
+                        <p class="stat-number" id="totalCustomers">0</p>
+                        <span class="stat-change">+15% from last month</span>
+                    </div>
+                </div>
+                
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Recent Orders</h3>
+                        <div id="recentOrders" class="orders-list">
+                            <!-- Orders will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Top Products</h3>
+                        <div id="topProducts" class="products-list">
+                            <!-- Top products will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Products Section -->
+            <section id="productsSection" class="content-section">
+                <div class="section-header">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search products..." id="productSearch">
+                        <button onclick="searchProducts()">Search</button>
+                    </div>
+                    <button class="btn-primary" onclick="showAddProduct()">+ Add Product</button>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Category</th>
+                                <th>Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTable">
+                            <!-- Products will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Orders Section -->
+            <section id="ordersSection" class="content-section">
+                <div class="section-header">
+                    <div class="filter-bar">
+                        <select id="orderStatus">
+                            <option value="">All Orders</option>
+                            <option value="pending">Pending</option>
+                            <option value="processing">Processing</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="delivered">Delivered</option>
+                        </select>
+                        <button onclick="filterOrders()">Filter</button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTable">
+                            <!-- Orders will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Customers Section -->
+            <section id="customersSection" class="content-section">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Orders</th>
+                                <th>Total Spent</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customersTable">
+                            <!-- Customers will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analyticsSection" class="content-section">
+                <div class="analytics-grid">
+                    <div class="chart-card">
+                        <h3>Sales Analytics</h3>
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Product Performance</h3>
+                        <canvas id="productChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settingsSection" class="content-section">
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>Website Settings</h3>
+                        <form id="websiteSettings">
+                            <div class="form-group">
+                                <label>Site Name</label>
+                                <input type="text" value="TRAGY" id="siteName">
+                            </div>
+                            <div class="form-group">
+                                <label>Contact Email</label>
+                                <input type="email" value="contact@tragy.com" id="contactEmail">
+                            </div>
+                            <button type="submit" class="btn-primary">Save Settings</button>
+                        </form>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <h3>Team Management</h3>
+                        <div id="teamList" class="team-list">
+                            <!-- Team members will be loaded here -->
+                        </div>
+                        <button onclick="showAddTeamMember()" class="btn-secondary">+ Add Team Member</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="addProductModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Product</h2>
+                <button onclick="closeModal('addProductModal')" class="close-btn">&times;</button>
+            </div>
+            <form id="addProductForm">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label>Price (₹)</label>
+                    <input type="number" id="productPrice" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="productCategory" required>
+                        <option value="tshirts">T-Shirts</option>
+                        <option value="hoodies">Hoodies</option>
+                        <option value="accessories">Accessories</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="productDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Image URL</label>
+                    <input type="url" id="productImage" required>
+                </div>
+                <div class="form-group">
+                    <label>Sizes (comma separated)</label>
+                    <input type="text" id="productSizes" placeholder="S,M,L,XL,XXL" required>
+                </div>
+                <div class="form-group">
+                    <label>Stock Quantity</label>
+                    <input type="number" id="productStock" required>
+                </div>
+                <button type="submit" class="btn-primary">Add Product</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

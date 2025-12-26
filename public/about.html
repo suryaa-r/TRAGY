@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - TRAGY</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo-container">
+                <img src="images/logo.png" alt="TRAGY Logo" class="logo-image">
+                <span class="logo-text">TRAGY</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/shop">Shop</a></li>
+                <li><a href="/collections">Collections</a></li>
+                <li><a href="/about" style="color: var(--primary-red);">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="cart-icon" onclick="toggleCart()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="m16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main style="margin-top: 100px;">
+        <section class="hero" style="height: 60vh; background: linear-gradient(135deg, var(--matte-black) 0%, var(--primary-red) 100%);">
+            <div class="container">
+                <div class="hero-content" style="color: white;">
+                    <h1 style="color: white;">Our Story</h1>
+                    <p class="hero-subtitle" style="color: rgba(255,255,255,0.9);">Where passion meets precision in every thread.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+                    <div>
+                        <h2 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--matte-black);">Crafting Excellence</h2>
+                        <p style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-gray); margin-bottom: 2rem;">
+                            Founded in 2024, TRAGY emerged from a simple belief: fashion should be an authentic expression of who you are. We combine traditional craftsmanship with contemporary design to create pieces that transcend trends.
+                        </p>
+                        <p style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-gray);">
+                            Every garment tells a story of meticulous attention to detail, premium materials, and the unwavering commitment to quality that defines our brand.
+                        </p>
+                    </div>
+                    <div style="background: linear-gradient(45deg, var(--warm-beige), var(--light-gray)); height: 400px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--matte-black);">
+                        Brand Heritage
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="background: var(--light-gray);">
+            <div class="container">
+                <h2 class="section-title">Our Values</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; margin-top: 3rem;">
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="width: 80px; height: 80px; background: var(--primary-red); border-radius: 50%; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: bold;">Q</div>
+                        <h3 style="margin-bottom: 1rem; color: var(--matte-black);">Quality First</h3>
+                        <p style="color: var(--dark-gray); line-height: 1.6;">We source only the finest materials and work with skilled artisans to ensure every piece meets our exacting standards.</p>
+                    </div>
+                    
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="width: 80px; height: 80px; background: var(--matte-black); border-radius: 50%; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: bold;">S</div>
+                        <h3 style="margin-bottom: 1rem; color: var(--matte-black);">Sustainability</h3>
+                        <p style="color: var(--dark-gray); line-height: 1.6;">Environmental responsibility is woven into our DNA. We're committed to ethical practices and sustainable fashion.</p>
+                    </div>
+                    
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="width: 80px; height: 80px; background: var(--warm-beige); border-radius: 50%; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center; color: var(--matte-black); font-size: 2rem; font-weight: bold;">I</div>
+                        <h3 style="margin-bottom: 1rem; color: var(--matte-black);">Innovation</h3>
+                        <p style="color: var(--dark-gray); line-height: 1.6;">We constantly push boundaries, blending traditional techniques with cutting-edge design and technology.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+                    <div style="background: linear-gradient(45deg, var(--primary-red), var(--matte-black)); height: 400px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white;">
+                        Craftsmanship
+                    </div>
+                    <div>
+                        <h2 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--matte-black);">The TRAGY Difference</h2>
+                        <p style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-gray); margin-bottom: 2rem;">
+                            What sets us apart isn't just our premium materials or impeccable construction—it's our understanding that fashion is deeply personal. Each piece is designed to enhance your natural confidence and express your unique style.
+                        </p>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
+                                <span style="width: 8px; height: 8px; background: var(--primary-red); border-radius: 50%; margin-right: 1rem;"></span>
+                                Premium materials sourced globally
+                            </li>
+                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
+                                <span style="width: 8px; height: 8px; background: var(--primary-red); border-radius: 50%; margin-right: 1rem;"></span>
+                                Handcrafted with attention to detail
+                            </li>
+                            <li style="margin-bottom: 1rem; display: flex; align-items: center;">
+                                <span style="width: 8px; height: 8px; background: var(--primary-red); border-radius: 50%; margin-right: 1rem;"></span>
+                                Timeless designs that transcend trends
+                            </li>
+                            <li style="display: flex; align-items: center;">
+                                <span style="width: 8px; height: 8px; background: var(--primary-red); border-radius: 50%; margin-right: 1rem;"></span>
+                                Exceptional customer service
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="background: var(--matte-black); color: white;">
+            <div class="container" style="text-align: center;">
+                <h2 style="color: var(--warm-beige); margin-bottom: 2rem;">Join the TRAGY Community</h2>
+                <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem; color: rgba(255,255,255,0.9);">
+                    Be part of a movement that celebrates individuality, quality, and timeless style. Discover fashion that speaks to who you are.
+                </p>
+                <a href="/shop" class="btn" style="background: var(--primary-red);">Explore Collection</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <h3>Shopping Cart</h3>
+        <div id="cartItems">
+            <p style="color: #999; text-align: center; margin-top: 2rem;">Your cart is empty</p>
+        </div>
+        <div class="cart-total" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+            <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem;">
+                <span>Total: </span>
+                <span id="cartTotal">$0</span>
+            </div>
+            <a href="/checkout" class="btn" style="width: 100%; text-align: center; margin-top: 1rem;">Checkout</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Shop</h3>
+                    <a href="/shop">All Products</a>
+                    <a href="/collections">Collections</a>
+                    <a href="/new-arrivals">New Arrivals</a>
+                    <a href="/sale">Sale</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <a href="/contact">Contact Us</a>
+                    <a href="/shipping">Shipping Info</a>
+                    <a href="/returns">Returns</a>
+                    <a href="/size-guide">Size Guide</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <a href="/about">About TRAGY</a>
+                    <a href="/careers">Careers</a>
+                    <a href="/press">Press</a>
+                    <a href="/sustainability">Sustainability</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Facebook</a>
+                    <a href="/newsletter">Newsletter</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TRAGY. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

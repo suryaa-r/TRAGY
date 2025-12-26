@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product - TRAGY</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo-container">
+                <img src="images/logo.png" alt="TRAGY Logo" class="logo-image">
+                <span class="logo-text">TRAGY</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/shop">Shop</a></li>
+                <li><a href="/collections">Collections</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="search-icon" onclick="toggleSearch()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </div>
+                <div class="user-icon" onclick="toggleUserMenu()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <div class="cart-icon" onclick="toggleCart()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="m16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main style="padding-top: 120px;">
+        <div class="container">
+            <nav style="margin-bottom: 2rem; color: #666; font-size: 0.9rem;">
+                <a href="/" style="color: #666; text-decoration: none;">Home</a> > 
+                <a href="/shop" style="color: #666; text-decoration: none;">Shop</a> > 
+                <span id="breadcrumbProduct">Product</span>
+            </nav>
+            
+            <div class="product-detail" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin: 2rem 0;">
+                <div class="product-images">
+                    <div class="main-image" style="margin-bottom: 1rem;">
+                        <img id="productImage" src="images/loading.png" alt="Product" style="width: 100%; border-radius: 12px; box-shadow: var(--shadow);">
+                    </div>
+                    <div class="thumbnail-images" style="display: flex; gap: 1rem; justify-content: center;">
+                        <img src="images/loading.png" alt="Thumbnail" style="width: 80px; height: 80px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.3s ease;" onclick="changeMainImage(this.src)">
+                        <img src="images/loading.png" alt="Thumbnail" style="width: 80px; height: 80px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.3s ease;" onclick="changeMainImage(this.src)">
+                        <img src="images/loading.png" alt="Thumbnail" style="width: 80px; height: 80px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.3s ease;" onclick="changeMainImage(this.src)">
+                    </div>
+                </div>
+                
+                <div class="product-info-detail">
+                    <h1 id="productName" style="font-family: 'Bebas Neue', cursive; font-size: 2.5rem; margin-bottom: 1rem; letter-spacing: 2px;">Loading...</h1>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <p id="productPrice" style="font-size: 1.8rem; color: var(--primary-red); font-weight: 700;">₹0</p>
+                        <div class="rating" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <div style="color: #ffc107;">★★★★☆</div>
+                            <span style="color: #666; font-size: 0.9rem;">(4.2)</span>
+                        </div>
+                    </div>
+                    
+                    <p id="productDescription" style="color: var(--dark-gray); margin-bottom: 2rem; line-height: 1.6;">Loading description...</p>
+                    
+                    <div class="product-features" style="margin-bottom: 2rem;">
+                        <h3 style="margin-bottom: 1rem; font-family: 'Bebas Neue', cursive; letter-spacing: 1px;">Features:</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">✓ Premium cotton blend</li>
+                            <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">✓ Comfortable fit</li>
+                            <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">✓ Machine washable</li>
+                            <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">✓ Durable construction</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="size-selector" style="margin-bottom: 2rem;">
+                        <h3 style="margin-bottom: 1rem; font-family: 'Bebas Neue', cursive; letter-spacing: 1px;">Size:</h3>
+                        <div id="sizeOptions" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <!-- Size buttons will be populated by JavaScript -->
+                        </div>
+                        <a href="#" style="color: var(--primary-red); font-size: 0.9rem; text-decoration: none; margin-top: 0.5rem; display: inline-block;">Size Guide</a>
+                    </div>
+                    
+                    <div class="quantity-selector" style="margin-bottom: 2rem;">
+                        <h3 style="margin-bottom: 1rem; font-family: 'Bebas Neue', cursive; letter-spacing: 1px;">Quantity:</h3>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="display: flex; align-items: center; border: 2px solid #ddd; border-radius: 8px; overflow: hidden;">
+                                <button onclick="changeQuantity(-1)" style="padding: 1rem 1.5rem; border: none; background: var(--light-gray); cursor: pointer; transition: background 0.3s ease;">-</button>
+                                <span id="quantity" style="padding: 1rem 1.5rem; min-width: 60px; text-align: center; font-weight: 600;">1</span>
+                                <button onclick="changeQuantity(1)" style="padding: 1rem 1.5rem; border: none; background: var(--light-gray); cursor: pointer; transition: background 0.3s ease;">+</button>
+                            </div>
+                            <span style="color: #666; font-size: 0.9rem;">In Stock</span>
+                        </div>
+                    </div>
+                    
+                    <div class="product-actions" style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                        <button onclick="addToCartFromProduct()" class="btn" style="flex: 2;">Add to Cart</button>
+                        <button onclick="toggleWishlist()" class="btn btn-outline" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                            Wishlist
+                        </button>
+                    </div>
+                    
+                    <div class="shipping-info" style="background: var(--light-gray); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <h4 style="margin-bottom: 1rem; font-family: 'Bebas Neue', cursive; letter-spacing: 1px;">Shipping & Returns</h4>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--dark-gray);">
+                            <div>🚚 Free shipping on orders over ₹1,500</div>
+                            <div>📦 Standard delivery: 3-5 business days</div>
+                            <div>↩️ 30-day return policy</div>
+                            <div>🔒 Secure payment options</div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="goBack()" class="btn btn-outline" style="width: 100%;">← Back to Shop</button>
+                </div>
+            </div>
+            
+            <!-- Related Products -->
+            <section style="margin-top: 4rem;">
+                <h2 class="section-title" style="font-size: 2rem;">You Might Also Like</h2>
+                <div class="product-grid" id="relatedProducts" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <!-- Related products will be loaded by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <a href="/" class="logo-container">
+                <img src="images/logo.png" alt="TRAGY Logo" class="logo-image">
+                <span class="logo-text">TRAGY</span>
+            </a>
+            <button class="cart-close" onclick="toggleMobileMenu()">&times;</button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="/shop">Shop</a></li>
+            <li><a href="/collections">Collections</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">&times;</button>
+        </div>
+        <div id="cartItems">
+            <p style="color: #999; text-align: center; margin-top: 2rem;">Your cart is empty</p>
+        </div>
+        <div class="cart-total" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+            <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem;">
+                <span>Total: </span>
+                <span id="cartTotal">₹0</span>
+            </div>
+            <a href="/checkout" class="btn" style="width: 100%; text-align: center; margin-top: 1rem;">Checkout</a>
+        </div>
+    </div>
+
+    <script src="js/main-fixed.js"></script>
+    <script src="js/header-animations.js"></script>
+    <script src="js/product.js"></script>
+</body>
+</html>
