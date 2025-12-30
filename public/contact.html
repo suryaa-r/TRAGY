@@ -441,7 +441,7 @@
                 <img src="images/logo.png" alt="TRAGY Logo" class="logo-image">
                 <span class="logo-text">TRAGY</span>
             </a>
-            <button class="cart-close" onclick="toggleMobileMenu()">&times;</button>
+            <button class="mobile-menu-close" onclick="toggleMobileMenu()">&times;</button>
         </div>
         <ul class="mobile-nav-links">
             <li><a href="/shop">DROP</a></li>
@@ -542,6 +542,30 @@
     <script src="js/cart-wishlist.js"></script>
     <script src="js/footer-functions.js"></script>
     <script>
+        // Mobile menu toggle function
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('mobileMenuOverlay');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (mobileMenu.classList.contains('open')) {
+                mobileMenu.classList.remove('open');
+                if (overlay) overlay.classList.remove('active');
+                if (toggle) toggle.classList.remove('active');
+                document.body.style.overflow = '';
+            } else {
+                mobileMenu.classList.add('open');
+                if (overlay) overlay.classList.add('active');
+                if (toggle) toggle.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        // Ensure mobile menu is hidden on page load
+        document.getElementById('mobileMenu').classList.remove('open');
+        document.getElementById('mobileMenuOverlay').classList.remove('active');
+        document.body.style.overflow = '';
+        
         // Contact form functionality
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
