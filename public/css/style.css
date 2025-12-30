@@ -2782,35 +2782,21 @@ img.fallback {
 @media (max-width: 768px) {
   #policiesModal > div:nth-child(2) {
     width: 95%;
-    max-height: 85vh;
-  }
-  
-  #policiesModal .policy-section {
-    margin-bottom: 1.5rem;
-  }
-  
-  #policiesModal h4 {
-    font-size: 1.1rem;
-  }
-  
-  #policiesModal p {
-    font-size: 0.9rem;
+    max-width: 320px;
   }
 }
 
 @media (max-width: 480px) {
   #policiesModal > div:nth-child(2) {
     width: 98%;
-    margin: 1rem;
-    transform: translate(-50%, -50%) scale(0.95);
+    max-width: 300px;
   }
   
   #policiesModal > div:nth-child(2) > div:first-child {
-    padding: 1rem;
+    padding: 0.75rem;
   }
   
   #policiesModal > div:nth-child(2) > div:last-child {
-    padding: 1rem;
-    max-height: 350px;
+    padding: 0.75rem;
   }
 }
