@@ -587,6 +587,27 @@ body {
   transform: rotate(90deg);
 }
 
+.mobile-menu-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--matte-black);
+  padding: 0.5rem;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-close:hover {
+  background: var(--light-gray);
+  transform: rotate(90deg);
+}
+
 /* Enhanced Footer */
 .footer {
   background: var(--matte-black);
