@@ -165,9 +165,45 @@
             </div>
             <div class="footer-bottom">
                 <p>TRAGY — Built from pressure, worn with purpose.</p>
+                <p style="margin-top: 0.5rem;"><a href="#" onclick="showPolicies()" style="color: #999; text-decoration: underline; font-size: 0.9rem;">Terms & Policies</a></p>
             </div>
         </div>
     </footer>
+
+    <!-- Policies Modal -->
+    <div id="policiesModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 3000; opacity: 0; visibility: hidden; transition: all 0.3s ease;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);" onclick="closePolicies()"></div>
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 12px; width: 90%; max-width: 600px; max-height: 80vh; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; border-bottom: 1px solid #eee; background: var(--matte-black); color: white;">
+                <h3 style="font-family: 'Bebas Neue', cursive; font-size: 1.5rem; letter-spacing: 1px; margin: 0;">Terms & Policies</h3>
+                <button onclick="closePolicies()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; padding: 0.5rem; border-radius: 50%; transition: all 0.3s ease;">&times;</button>
+            </div>
+            <div style="padding: 1.5rem; max-height: 400px; overflow-y: auto;">
+                <div class="policy-section">
+                    <h4 style="color: var(--primary-red); margin-bottom: 1rem; font-family: 'Bebas Neue', cursive; font-size: 1.2rem; letter-spacing: 1px;">Privacy Policy</h4>
+                    <p style="margin-bottom: 1rem; color: #666; line-height: 1.6;">We collect minimal data necessary for order processing. Your information is never shared with third parties.</p>
+                </div>
+                <div class="policy-section">
+                    <h4 style="color: var(--primary-red); margin-bottom: 1rem; font-family: 'Bebas Neue', cursive; font-size: 1.2rem; letter-spacing: 1px;">Refund Policy</h4>
+                    <p style="margin-bottom: 1rem; color: #666; line-height: 1.6;">No refunds on limited drops. All sales final. Items are made to order and cannot be returned.</p>
+                </div>
+                <div class="policy-section">
+                    <h4 style="color: var(--primary-red); margin-bottom: 1rem; font-family: 'Bebas Neue', cursive; font-size: 1.2rem; letter-spacing: 1px;">Terms of Service</h4>
+                    <p style="margin-bottom: 1rem; color: #666; line-height: 1.6;">By purchasing from TRAGY, you agree to our terms. Limited quantities, no restocks, authentic streetwear only.</p>
+                </div>
+                <div class="policy-section">
+                    <h4 style="color: var(--primary-red); margin-bottom: 1rem; font-family: 'Bebas Neue', cursive; font-size: 1.2rem; letter-spacing: 1px;">Shipping Policy</h4>
+                    <p style="margin-bottom: 1rem; color: #666; line-height: 1.6;">Orders ship within 3-5 business days. Express shipping available. International shipping to select countries.</p>
+                </div>
+                <div class="policy-section">
+                    <h4 style="color: var(--primary-red); margin-bottom: 1rem; font-family: 'Bebas Neue', cursive; font-size: 1.2rem; letter-spacing: 1px;">Contact Information</h4>
+                    <p style="margin-bottom: 0.5rem; color: #666; line-height: 1.6;">Email: hello@tragy.com</p>
+                    <p style="margin-bottom: 0.5rem; color: #666; line-height: 1.6;">WhatsApp: +1 (234) 567-8900</p>
+                    <p style="color: #666; line-height: 1.6;">Instagram: @tragy</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="js/main-fixed.js"></script>
     <script src="js/header-animations.js"></script>
@@ -252,6 +288,21 @@
                 document.getElementById('visitorCount').textContent = '1';
             }
         });
+        
+        // Policies modal functions
+        function showPolicies() {
+            const modal = document.getElementById('policiesModal');
+            modal.style.opacity = '1';
+            modal.style.visibility = 'visible';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePolicies() {
+            const modal = document.getElementById('policiesModal');
+            modal.style.opacity = '0';
+            modal.style.visibility = 'hidden';
+            document.body.style.overflow = '';
+        }
     </script>
 </body>
 </html>
