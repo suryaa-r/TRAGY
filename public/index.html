@@ -338,7 +338,10 @@
         
         function updateWishlistCount() {
             const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-            document.getElementById('wishlistCount').textContent = wishlist.length;
+            const wishlistCountElement = document.getElementById('wishlistCount');
+            if (wishlistCountElement) {
+                wishlistCountElement.textContent = wishlist.length;
+            }
         }
         
         function switchTab(tab) {
