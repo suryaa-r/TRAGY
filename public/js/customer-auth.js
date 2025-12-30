@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Check localStorage for registered users
                 const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
                 console.log('Registered users:', registeredUsers);
-                console.log('Login attempt:', { email, password });
-                const user = registeredUsers.find(u => u.email === email && u.password === password);
+                console.log('Login attempt:', { email: email.trim(), password: password.trim() });
+                const user = registeredUsers.find(u => u.email.toLowerCase().trim() === email.toLowerCase().trim() && u.password.trim() === password.trim());
                 console.log('Found user:', user);
 
                 if (user) {
