@@ -224,6 +224,68 @@
             }
         }
         
+        // Load live orders from localStorage
+        function loadLiveOrders() {
+            const orders = JSON.parse(localStorage.getItem('userOrders')) || [];
+            const container = document.getElementById('ordersContainer');
+            
+            if (orders.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 4rem 2rem; color: #666;">
+                        <h3>No Orders Yet</h3>
+                        <p>Your orders will appear here once you make a purchase.</p>
+                        <a href="/shop" class="btn" style="margin-top: 1rem;">Start Shopping</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = orders.map(order => `
+                <div class="order-card" style="background: var(--light-gray); padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="color: var(--primary-red); font-family: 'Bebas Neue', cursive;">ORDER #${order.id}</h3>
+                        <span style="background: ${getStatusColor(order.status)}; color: ${order.status === 'processing' ? 'black' : 'white'}; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem;">${order.status.toUpperCase()}</span>
+                    </div>
+                    <p style="color: var(--dark-gray); margin-bottom: 1rem;">Ordered on: ${order.date}</p>
+                    <div style="margin-bottom: 1rem;">
+                        ${order.items.map(item => `
+                            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                                <div style="width: 60px; height: 60px; background: #ddd; border-radius: 4px;"></div>
+                                <div>
+                                    <h4>${item.name}</h4>
+                                    <p style="color: var(--dark-gray);">Size: ${item.size} | Qty: ${item.quantity}</p>
+                                    <p style="color: var(--primary-red); font-weight: bold;">₹${item.price * item.quantity}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <p style="font-weight: bold; font-size: 1.1rem;">Total: ₹${order.total}</p>
+                        <button class="btn" onclick="trackOrder('${order.id}')">TRACK ORDER</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function getStatusColor(status) {
+            switch(status) {
+                case 'delivered': return '#28a745';
+                case 'shipped': return '#17a2b8';
+                case 'processing': return '#ffc107';
+                default: return '#6c757d';
+            }
+        }
+        
+        function trackOrder(orderId) {
+            document.getElementById('trackingModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTracking() {
+            document.getElementById('trackingModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
             loadLiveOrders();
             updateCartCount();
