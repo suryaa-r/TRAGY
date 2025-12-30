@@ -185,6 +185,25 @@
         </ul>
     </div>
 
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">&times;</button>
+        </div>
+        <div id="cartItems">
+            <p style="color: #999; text-align: center; margin-top: 2rem;">Your cart is empty</p>
+        </div>
+        <div class="cart-total" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+            <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem;">
+                <span>Total: </span>
+                <span id="cartTotal">₹0</span>
+            </div>
+            <a href="/checkout" class="btn" style="width: 100%; text-align: center; margin-top: 1rem;">Checkout</a>
+        </div>
+    </div>
+
     <script>
         // Load live orders from localStorage
         function loadLiveOrders() {
@@ -252,6 +271,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadLiveOrders();
             updateCartCount();
+            updateCartDisplay();
+            if (typeof createSearchModal === 'function') createSearchModal();
+            if (typeof createUserMenu === 'function') createUserMenu();
+            if (typeof updateUserMenuState === 'function') updateUserMenuState();
         });
     </script>
     <script src="js/main-fixed.js"></script>
