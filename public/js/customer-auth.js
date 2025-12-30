@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('user', JSON.stringify(userSession));
                     showNotification('Login successful!', 'success');
                     setTimeout(() => {
-                        window.location.href = 'index.html';
+                        window.location.href = '/index.html';
                     }, 1000);
                 } else {
                     showNotification('Invalid email or password.', 'error');
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 showNotification('Account created successfully!', 'success');
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+                    window.location.href = '/index.html';
                 }, 1000);
                 
             } catch (error) {
