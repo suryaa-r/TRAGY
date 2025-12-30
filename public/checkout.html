@@ -268,7 +268,8 @@
         </div>
     </main>
 
-    <script src="js/main.js"></script>
+    <script src="js/main-fixed.js"></script>
+    <script src="js/cart-wishlist.js"></script>
     <script>
         // Checkout page functionality
         document.addEventListener('DOMContentLoaded', function() {
@@ -341,9 +342,13 @@
                 
                 // Simulate order processing
                 setTimeout(() => {
-                    alert('Order placed successfully! Thank you for shopping with TRAGY.');
-                    localStorage.removeItem('cart');
-                    window.location.href = '/';
+                    // Create order and save to localStorage
+                    const orderId = createOrder();
+                    alert(`Order #${orderId} placed successfully! Thank you for shopping with TRAGY.`);
+                    
+                    // Clear cart and redirect
+                    updateCartCount();
+                    window.location.href = '/orders.html';
                 }, 2000);
             });
         }

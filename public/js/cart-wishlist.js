@@ -77,3 +77,37 @@ function toggleCart() {
         document.body.style.overflow = 'hidden';
     }
 }
+
+// Order management functions
+function createOrder() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    if (cart.length === 0) return;
+    
+    const orders = JSON.parse(localStorage.getItem('userOrders')) || [];
+    const orderId = 'TRG' + String(orders.length + 1).padStart(3, '0');
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    const newOrder = {
+        id: orderId,
+        date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+        items: cart,
+        total: total,
+        status: 'processing'
+    };
+    
+    orders.push(newOrder);
+    localStorage.setItem('userOrders', JSON.stringify(orders));
+    localStorage.removeItem('cart');
+    
+    return orderId;
+}
+
+// Simulate order status updates
+function updateOrderStatus(orderId, status) {
+    const orders = JSON.parse(localStorage.getItem('userOrders')) || [];
+    const order = orders.find(o => o.id === orderId);
+    if (order) {
+        order.status = status;
+        localStorage.setItem('userOrders', JSON.stringify(orders));
+    }
+}
