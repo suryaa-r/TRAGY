@@ -44,6 +44,8 @@ function removeFromWishlist(productId) {
 
 function updateWishlistDisplay() {
     const wishlistItems = document.getElementById('wishlistItems');
+    if (!wishlistItems) return; // Exit if element doesn't exist
+    
     const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
     
     if (wishlist.length === 0) {
