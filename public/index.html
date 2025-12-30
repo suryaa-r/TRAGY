@@ -15,12 +15,7 @@
                 <img src="images/logo.png" alt="TRAGY Logo" class="logo-image">
                 <span class="logo-text">TRAGY</span>
             </a>
-            <ul class="nav-links">
-                <li><a href="/shop">Shop</a></li>
-                <li><a href="/collections">Collections</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact">Contact</a></li>
-            </ul>
+            <ul class="nav-links" style="display: none;"></ul>
             <div class="nav-actions">
                 <div class="search-icon" onclick="toggleSearch()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -57,20 +52,24 @@
         <section class="hero">
             <div class="container">
                 <div class="hero-content">
-                    <h1>Redefine Your Style</h1>
-                    <p class="hero-subtitle">Discover premium streetwear that speaks to your individuality. Curated collections for the modern urban trendsetter.</p>
-                    <a href="/shop" class="btn">Shop Collection</a>
+                    <h1>WEAR THE TRAGEDY</h1>
+                    <p class="hero-subtitle">Streetwear built from chaos, pressure, and self-expression.<br><span style="font-size: 0.8rem; color: #ff0000;">Limited drops. No restocks.</span></p>
+                    <a href="/shop" class="btn">ENTER THE DROP</a>
                 </div>
             </div>
         </section>
 
         <section class="section">
             <div class="container">
-                <h2 class="section-title">Featured Collections</h2>
+                <h2 class="section-title">CURRENT DROP</h2>
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h3 style="font-size: 1.5rem; color: var(--primary-red); margin-bottom: 1rem;">DROP 001 — PRESSURE</h3>
+                    <p style="font-size: 1.1rem; color: var(--dark-gray); max-width: 500px; margin: 0 auto;">Built for nights that don't end and days that hit hard.<br>Each piece is limited. Once it's gone, it's gone.</p>
+                </div>
                 <div class="product-grid" id="featuredProducts">
                     <div class="product-card" onclick="viewProduct(1)">
                         <div class="product-image">
-                            <img src="images/loading.png" alt="Premium Jacket" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop" alt="Oversized Graphic Tee" style="width: 100%; height: 100%; object-fit: cover;">
                             <div class="product-overlay">
                                 <button class="quick-view-btn">Quick View</button>
                             </div>
@@ -78,26 +77,29 @@
                         <div class="product-info">
                             <h3 class="product-title">Oversized Graphic Tee</h3>
                             <p class="product-price">₹1,299</p>
+                            <p style="font-size: 0.8rem; color: var(--primary-red); font-weight: 600;">NO RESTOCK.</p>
                         </div>
                     </div>
                     
                     <div class="product-card" onclick="viewProduct(2)">
                         <div class="product-image">
-                            <img src="images/loading.png" alt="Vintage Streetwear Tee" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&h=400&fit=crop" alt="Vintage Streetwear Tee" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <div class="product-info">
                             <h3 class="product-title">Vintage Streetwear Tee</h3>
                             <p class="product-price">₹1,199</p>
+                            <p style="font-size: 0.8rem; color: var(--primary-red); font-weight: 600;">NO RESTOCK.</p>
                         </div>
                     </div>
                     
-                    <div class="product-card" onclick="viewProduct(3)">
+                    <div class="product-card" onclick="viewProduct(4)">
                         <div class="product-image">
-                            <img src="images/loading.png" alt="Urban Logo Tee" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=400&fit=crop" alt="Black Hoodie Premium" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <div class="product-info">
-                            <h3 class="product-title">Urban Logo Tee</h3>
-                            <p class="product-price">₹999</p>
+                            <h3 class="product-title">Black Hoodie Premium</h3>
+                            <p class="product-price">₹2,499</p>
+                            <p style="font-size: 0.8rem; color: var(--primary-red); font-weight: 600;">NO RESTOCK.</p>
                         </div>
                     </div>
                 </div>
@@ -106,36 +108,19 @@
 
         <section class="section" style="background: var(--light-gray);">
             <div class="container">
-                <h2 class="section-title">Best Sellers</h2>
-                <div class="product-grid" id="bestSellers">
-                    <div class="product-card" onclick="viewProduct(4)">
-                        <div class="product-image">
-                            <img src="images/loading.png" alt="Casual Wear" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">Distressed Street Tee</h3>
-                            <p class="product-price">₹1,399</p>
-                        </div>
+                <h2 class="section-title">WHY TRAGY EXISTS</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                    <div style="text-align: center;">
+                        <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--primary-red);">NOT MASS PRODUCED</h3>
+                        <p style="color: var(--dark-gray); line-height: 1.6;">We don't flood the market. Every drop is capped.</p>
                     </div>
-                    
-                    <div class="product-card" onclick="viewProduct(5)">
-                        <div class="product-image">
-                            <img src="images/loading.png" alt="Neon Graphic Tee" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">Neon Graphic Tee</h3>
-                            <p class="product-price">₹1,499</p>
-                        </div>
+                    <div style="text-align: center;">
+                        <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--primary-red);">DESIGNED WITH INTENT</h3>
+                        <p style="color: var(--dark-gray); line-height: 1.6;">Each graphic, stitch, and fit has a reason.</p>
                     </div>
-                    
-                    <div class="product-card" onclick="viewProduct(6)">
-                        <div class="product-image">
-                            <img src="images/loading.png" alt="Classic Street Tee" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">Classic Street Tee</h3>
-                            <p class="product-price">₹899</p>
-                        </div>
+                    <div style="text-align: center;">
+                        <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--primary-red);">BUILT FOR THE STREETS</h3>
+                        <p style="color: var(--dark-gray); line-height: 1.6;">Tested for real wear, not studio photos.</p>
                     </div>
                 </div>
             </div>
@@ -143,15 +128,31 @@
 
         <section class="section">
             <div class="container" style="text-align: center;">
-                <h2 class="section-title">Our Story</h2>
-                <p style="max-width: 600px; margin: 0 auto; font-size: 1.1rem; color: var(--dark-gray); line-height: 1.8;">
-                    TRAGY represents the intersection of street culture and premium quality. We create streetwear that speaks to your authentic self, designed for the modern urban lifestyle.
-                </p>
+                <h2 class="section-title">THIS IS TRAGY.</h2>
+                <div style="max-width: 600px; margin: 0 auto; font-size: 1.1rem; color: var(--dark-gray); line-height: 1.8;">
+                    <p style="margin-bottom: 1.5rem;">TRAGY isn't about fitting in.</p>
+                    <p style="margin-bottom: 1.5rem;">It's about wearing what you've survived.</p>
+                    <p style="margin-bottom: 1.5rem;">Every piece is designed to reflect pressure, struggle, and identity.</p>
+                    <p style="margin-bottom: 1.5rem;">No mass production. No trends.</p>
+                    <p style="color: var(--primary-red); font-weight: 600;">Just limited drops with meaning.</p>
+                </div>
                 <a href="/about" class="btn btn-outline" style="margin-top: 2rem;">Learn More</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container" style="text-align: center;">
+                <h2 class="section-title">THE ONES WHO WEAR IT</h2>
+                <p style="max-width: 500px; margin: 0 auto; font-size: 1.1rem; color: var(--dark-gray); line-height: 1.8;">
+                    TRAGY is worn by people who don't chase validation. Real streets. Real stories.
+                </p>
             </div>
         </section>
     </main>
 
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="toggleMobileMenu()"></div>
+    
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
@@ -162,10 +163,11 @@
             <button class="cart-close" onclick="toggleMobileMenu()">&times;</button>
         </div>
         <ul class="mobile-nav-links">
-            <li><a href="/shop">Shop</a></li>
-            <li><a href="/collections">Collections</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href="/shop">DROP</a></li>
+            <li><a href="/collections">LOOKBOOK</a></li>
+            <li><a href="orders.html">ORDERS</a></li>
+            <li><a href="/about">ABOUT</a></li>
+            <li><a href="/contact">CONTACT</a></li>
         </ul>
     </div>
 
@@ -173,70 +175,175 @@
     <div class="cart-overlay" onclick="toggleCart()"></div>
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
-            <h3>Shopping Cart</h3>
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                <button id="cartTab" onclick="switchTab('cart')" style="flex: 1; padding: 0.5rem; border: none; background: var(--primary-red); color: white; cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="m16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    Cart
+                </button>
+                <button id="wishlistTab" onclick="switchTab('wishlist')" style="flex: 1; padding: 0.5rem; border: 2px solid var(--primary-red); background: white; color: var(--primary-red); cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    Wishlist
+                </button>
+            </div>
             <button class="cart-close" onclick="toggleCart()">&times;</button>
         </div>
-        <div id="cartItems">
-            <p style="color: #999; text-align: center; margin-top: 2rem;">Your cart is empty</p>
-        </div>
-        <div class="cart-total" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
-            <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem;">
-                <span>Total: </span>
-                <span id="cartTotal">$0</span>
+        <div id="cartContent">
+            <div id="cartItems">
+                <p style="color: #999; text-align: center; margin-top: 2rem;">Your cart is empty</p>
             </div>
-            <a href="/checkout" class="btn" style="width: 100%; text-align: center; margin-top: 1rem;">Checkout</a>
+            <div class="cart-total" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem;">
+                    <span>Total: </span>
+                    <span id="cartTotal">$0</span>
+                </div>
+                <a href="/checkout" class="btn" style="width: 100%; text-align: center; margin-top: 1rem;">Checkout</a>
+            </div>
+        </div>
+        <div id="wishlistContent" style="display: none;">
+            <div id="wishlistItems">
+                <p style="color: #999; text-align: center; margin-top: 2rem;">Your wishlist is empty</p>
+            </div>
         </div>
     </div>
 
     <footer class="footer">
         <div class="container">
+            <div class="live-visitors" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 2rem; color: #666; font-size: 0.9rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #ff0000;">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span id="visitorCount">0</span> people are viewing this site right now
+            </div>
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>Shop</h3>
                     <a href="/shop">All Products</a>
                     <a href="/collections">Collections</a>
-                    <a href="/new-arrivals">New Arrivals</a>
-                    <a href="/sale">Sale</a>
+                    <a href="sale.html">Sale</a>
                 </div>
                 <div class="footer-section">
                     <h3>Support</h3>
                     <a href="/contact">Contact Us</a>
-                    <a href="/shipping">Shipping Info</a>
-                    <a href="/returns">Returns</a>
-                    <a href="/size-guide">Size Guide</a>
+                    <a href="shipping.html">Shipping Info</a>
+                    <a href="returns.html">Returns</a>
+                    <a href="#" onclick="showSizeGuide()">Size Guide</a>
                 </div>
                 <div class="footer-section">
                     <h3>Company</h3>
                     <a href="/about">About TRAGY</a>
-                    <a href="/careers">Careers</a>
-                    <a href="/press">Press</a>
-                    <a href="/sustainability">Sustainability</a>
+                    <a href="sustainability.html">Sustainability</a>
                 </div>
                 <div class="footer-section">
                     <h3>Connect</h3>
-                    <a href="#">Instagram</a>
-                    <a href="#">Twitter</a>
-                    <a href="#">Facebook</a>
-                    <a href="/newsletter">Newsletter</a>
+                    <a href="https://instagram.com/tragy">Instagram</a>
+                    <a href="https://wa.me/1234567890">WhatsApp</a>
+                    <a href="mailto:hello@tragy.com">Email</a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 TRAGY. All rights reserved.</p>
+                <p>TRAGY — Built from pressure, worn with purpose.</p>
             </div>
         </div>
     </footer>
 
+    <script src="js/tragy-functions.js"></script>
     <script src="js/main-fixed.js"></script>
     <script src="js/header-animations.js"></script>
     <script src="js/image-loader.js"></script>
+    <script src="js/image-error-handler.js"></script>
+    <script src="js/cart-wishlist.js"></script>
+    <script src="js/footer-functions.js"></script>
     <script>
-        // Initialize header functionality
+        let sessionId = null;
+        
+        // Real-time visitor tracking with HTTP requests
+        async function initVisitorTracking() {
+            try {
+                const response = await fetch('/api/visitor/join', { method: 'POST' });
+                const data = await response.json();
+                sessionId = data.sessionId;
+                document.getElementById('visitorCount').textContent = data.count;
+                
+                // Update count every 5 seconds
+                setInterval(async () => {
+                    if (sessionId) {
+                        try {
+                            const pingResponse = await fetch('/api/visitor/ping', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ sessionId })
+                            });
+                            const pingData = await pingResponse.json();
+                            document.getElementById('visitorCount').textContent = pingData.count;
+                        } catch (error) {
+                            console.warn('Visitor ping failed:', error);
+                        }
+                    }
+                }, 5000);
+            } catch (error) {
+                console.warn('Visitor tracking failed:', error);
+                document.getElementById('visitorCount').textContent = '1';
+            }
+        }
+        
+        // Initialize everything
         document.addEventListener('DOMContentLoaded', function() {
             updateCartCount();
             updateCartDisplay();
-            createSearchModal();
-            createUserMenu();
+            updateWishlistCount();
+            if (typeof createSearchModal === 'function') createSearchModal();
+            if (typeof createUserMenu === 'function') createUserMenu();
+            initVisitorTracking();
         });
+        
+        // Wishlist functions
+        function toggleWishlist() {
+            const sidebar = document.getElementById('wishlistSidebar');
+            const overlay = document.querySelector('.wishlist-overlay');
+            
+            if (sidebar.style.right === '0px') {
+                sidebar.style.right = '-400px';
+                overlay.style.display = 'none';
+            } else {
+                sidebar.style.right = '0px';
+                overlay.style.display = 'block';
+            }
+        }
+        
+        function updateWishlistCount() {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            document.getElementById('wishlistCount').textContent = wishlist.length;
+        }
+        
+        function switchTab(tab) {
+            const cartTab = document.getElementById('cartTab');
+            const wishlistTab = document.getElementById('wishlistTab');
+            const cartContent = document.getElementById('cartContent');
+            const wishlistContent = document.getElementById('wishlistContent');
+            
+            if (tab === 'cart') {
+                cartTab.style.background = 'var(--primary-red)';
+                cartTab.style.color = 'white';
+                wishlistTab.style.background = 'white';
+                wishlistTab.style.color = 'var(--primary-red)';
+                cartContent.style.display = 'block';
+                wishlistContent.style.display = 'none';
+            } else {
+                wishlistTab.style.background = 'var(--primary-red)';
+                wishlistTab.style.color = 'white';
+                cartTab.style.background = 'white';
+                cartTab.style.color = 'var(--primary-red)';
+                cartContent.style.display = 'none';
+                wishlistContent.style.display = 'block';
+            }
+        }
     </script>
 </body>
 </html>

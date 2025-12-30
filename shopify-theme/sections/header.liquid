@@ -1,0 +1,117 @@
+<header style="position: fixed; top: 0; width: 100%; background: #121212; z-index: 1000; border-bottom: 2px solid #B00020;">
+  <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 16px 20px;">
+    
+    <!-- Logo -->
+    <a href="{{ routes.root_url }}" style="color: #B00020; text-decoration: none; font-size: 2rem; font-weight: bold; letter-spacing: 2px;">
+      {{ shop.name }}
+    </a>
+    
+    <!-- Navigation -->
+    <nav style="display: flex; gap: 32px;">
+      <a href="{{ routes.all_products_collection_url }}" style="color: white; text-decoration: none; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s;" onmouseover="this.style.color='#B00020'" onmouseout="this.style.color='white'">Shop</a>
+      <a href="/pages/about" style="color: white; text-decoration: none; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s;" onmouseover="this.style.color='#B00020'" onmouseout="this.style.color='white'">About</a>
+      <a href="/pages/contact" style="color: white; text-decoration: none; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s;" onmouseover="this.style.color='#B00020'" onmouseout="this.style.color='white'">Contact</a>
+    </nav>
+    
+    <!-- Actions -->
+    <div style="display: flex; gap: 16px; align-items: center;">
+      
+      <!-- Customer Account -->
+      {% if customer %}
+        <div style="position: relative;">
+          <button onclick="toggleAccountMenu()" style="background: none; border: none; color: white; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 25px; transition: all 0.3s;" onmouseover="this.style.background='rgba(176,0,32,0.2)'; this.style.color='#B00020'" onmouseout="this.style.background='none'; this.style.color='white'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span style="font-size: 14px; font-weight: 500;">{{ customer.first_name }}</span>
+          </button>
+          <div id="account-menu" style="position: absolute; top: 100%; right: 0; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000; display: none; margin-top: 8px;">
+            <a href="{{ routes.account_url }}" style="display: block; padding: 12px 16px; color: #121212; text-decoration: none; border-bottom: 1px solid #f0f0f0; transition: background 0.3s;" onmouseover="this.style.background='#f8f8f8'" onmouseout="this.style.background='white'">My Account</a>
+            <a href="{{ routes.account_orders_url }}" style="display: block; padding: 12px 16px; color: #121212; text-decoration: none; border-bottom: 1px solid #f0f0f0; transition: background 0.3s;" onmouseover="this.style.background='#f8f8f8'" onmouseout="this.style.background='white'">Orders</a>
+            <a href="{{ routes.account_addresses_url }}" style="display: block; padding: 12px 16px; color: #121212; text-decoration: none; border-bottom: 1px solid #f0f0f0; transition: background 0.3s;" onmouseover="this.style.background='#f8f8f8'" onmouseout="this.style.background='white'">Addresses</a>
+            <a href="{{ routes.account_logout_url }}" style="display: block; padding: 12px 16px; color: #B00020; text-decoration: none; font-weight: 600; transition: background 0.3s;" onmouseover="this.style.background='#f8f8f8'" onmouseout="this.style.background='white'">Sign Out</a>
+          </div>
+        </div>
+      {% else %}
+        <a href="{{ routes.account_login_url }}" style="color: white; text-decoration: none; padding: 8px 16px; border-radius: 25px; transition: all 0.3s; font-weight: 500; font-size: 14px; display: flex; align-items: center; gap: 8px;" onmouseover="this.style.background='rgba(176,0,32,0.2)'; this.style.color='#B00020'" onmouseout="this.style.background='none'; this.style.color='white'">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Sign In
+        </a>
+      {% endif %}
+      
+      <!-- Wishlist -->
+      <button onclick="toggleWishlistDrawer()" style="background: none; border: none; color: white; cursor: pointer; position: relative; padding: 8px; border-radius: 50%; transition: all 0.3s;" onmouseover="this.style.background='rgba(176,0,32,0.2)'; this.style.color='#B00020'" onmouseout="this.style.background='none'; this.style.color='white'">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+        <span id="wishlist-count" style="position: absolute; top: -5px; right: -5px; background: #B00020; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; display: none; align-items: center; justify-content: center; font-weight: 600;">0</span>
+      </button>
+      
+      <!-- Cart -->
+      <a href="{{ routes.cart_url }}" style="color: white; text-decoration: none; position: relative; padding: 8px; border-radius: 50%; transition: all 0.3s;" onmouseover="this.style.background='rgba(176,0,32,0.2)'; this.style.color='#B00020'" onmouseout="this.style.background='none'; this.style.color='white'">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="m16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span id="cart-count" style="position: absolute; top: -5px; right: -5px; background: #B00020; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; display: {% if cart.item_count > 0 %}flex{% else %}none{% endif %}; align-items: center; justify-content: center; font-weight: 600;">{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  updateWishlistCount();
+});
+
+function updateWishlistCount() {
+  const wishlist = JSON.parse(localStorage.getItem('tragy_wishlist')) || [];
+  const wishlistCount = document.getElementById('wishlist-count');
+  
+  if (wishlistCount) {
+    wishlistCount.textContent = wishlist.length;
+    wishlistCount.style.display = wishlist.length > 0 ? 'flex' : 'none';
+  }
+}
+
+function toggleWishlistDrawer() {
+  const wishlist = JSON.parse(localStorage.getItem('tragy_wishlist')) || [];
+  
+  if (wishlist.length === 0) {
+    alert('Your wishlist is empty');
+    return;
+  }
+  
+  alert(`You have ${wishlist.length} item(s) in your wishlist`);
+}
+
+// Account menu toggle
+function toggleAccountMenu() {
+  const menu = document.getElementById('account-menu');
+  if (menu) {
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  }
+}
+
+// Close account menu when clicking outside
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('account-menu');
+  const button = e.target.closest('button[onclick="toggleAccountMenu()"]');
+  
+  if (menu && !button && !menu.contains(e.target)) {
+    menu.style.display = 'none';
+  }
+});
+
+// Listen for wishlist updates
+window.addEventListener('storage', function(e) {
+  if (e.key === 'tragy_wishlist') {
+    updateWishlistCount();
+  }
+});
+</script>

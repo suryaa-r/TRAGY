@@ -1,0 +1,152 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+<div class="customer-register">
+  <div class="page-width">
+    <div class="customer-register__container">
+      
+      <div class="customer-register__form-wrapper">
+        <h1 class="customer-register__title">Create Account</h1>
+        <p class="customer-register__subtitle">Join the TRAGY community</p>
+        
+        {% form 'create_customer', novalidate: 'novalidate', class: 'customer-register__form' %}
+          {%- if form.posted_successfully? -%}
+            <div class="form__message form__message--success">
+              <h2 class="form-status caption-large text-body" role="status" tabindex="-1" autofocus>
+                {{ 'customer.register.success' | t }}
+              </h2>
+            </div>
+          {%- endif -%}
+
+          {%- if form.errors -%}
+            <div class="form__message form__message--error">
+              <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
+                {{ 'templates.contact.form.error_heading' | t }}
+              </h2>
+              <ul>
+                {%- for field in form.errors -%}
+                  <li>
+                    {%- if field == 'form' -%}
+                      {{ form.errors.messages[field] }}
+                    {%- else -%}
+                      {{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          <div class="customer-register__form-grid">
+            <div class="field">
+              <input
+                type="text"
+                name="customer[first_name]"
+                id="RegisterForm-FirstName"
+                autocomplete="given-name"
+                class="field__input"
+                placeholder=" "
+                {%- if form.first_name -%}value="{{ form.first_name }}"{%- endif -%}
+                required
+              >
+              <label class="field__label" for="RegisterForm-FirstName">First Name</label>
+            </div>
+
+            <div class="field">
+              <input
+                type="text"
+                name="customer[last_name]"
+                id="RegisterForm-LastName"
+                autocomplete="family-name"
+                class="field__input"
+                placeholder=" "
+                {%- if form.last_name -%}value="{{ form.last_name }}"{%- endif -%}
+                required
+              >
+              <label class="field__label" for="RegisterForm-LastName">Last Name</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <input
+              type="email"
+              name="customer[email]"
+              id="RegisterForm-email"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              class="field__input"
+              placeholder=" "
+              {%- if form.email -%}value="{{ form.email }}"{%- endif -%}
+              required
+            >
+            <label class="field__label" for="RegisterForm-email">Email</label>
+          </div>
+
+          <div class="field">
+            <input
+              type="password"
+              name="customer[password]"
+              id="RegisterForm-password"
+              autocomplete="new-password"
+              class="field__input"
+              placeholder=" "
+              required
+            >
+            <label class="field__label" for="RegisterForm-password">Password</label>
+            <small class="field__help">Must be at least 5 characters</small>
+          </div>
+
+          <div class="customer-register__marketing">
+            <input
+              type="checkbox"
+              name="customer[accepts_marketing]"
+              id="RegisterForm-accepts_marketing"
+              class="checkbox__input"
+              {%- if form.accepts_marketing -%}checked{%- endif -%}
+            >
+            <label class="checkbox__label" for="RegisterForm-accepts_marketing">
+              Subscribe to exclusive offers and updates
+            </label>
+          </div>
+
+          <div class="customer-register__actions">
+            <button type="submit" class="btn btn--primary">
+              Create Account
+            </button>
+          </div>
+        {% endform %}
+        
+        <div class="customer-register__login">
+          <p>Already have an account?</p>
+          <a href="{{ routes.account_login_url }}" class="btn btn--outline">
+            Sign In
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer Register",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Registration Page Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Page Title",
+      "default": "Create Account"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Page Subtitle",
+      "default": "Join the TRAGY community"
+    }
+  ]
+}
+{% endschema %}

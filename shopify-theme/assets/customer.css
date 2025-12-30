@@ -1,0 +1,539 @@
+/* Customer Authentication Styles */
+
+.customer-login,
+.customer-register {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+  padding: 2rem 0;
+}
+
+.customer-login__container,
+.customer-register__container {
+  max-width: 500px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.customer-login__form-wrapper,
+.customer-register__form-wrapper {
+  padding: 3rem;
+}
+
+.customer-login__title,
+.customer-register__title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--matte-black);
+  text-align: center;
+  margin-bottom: 0.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.customer-login__subtitle,
+.customer-register__subtitle {
+  text-align: center;
+  color: var(--dark-gray);
+  margin-bottom: 2.5rem;
+  font-size: 1.1rem;
+}
+
+.customer-login__form,
+.customer-register__form {
+  margin-bottom: 2rem;
+}
+
+.customer-register__form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.field {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.field__input {
+  width: 100%;
+  padding: 1.2rem 1rem 0.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+  font-family: inherit;
+}
+
+.field__input:focus {
+  outline: none;
+  border-color: var(--primary-red);
+  box-shadow: 0 0 0 3px rgba(176, 0, 32, 0.1);
+}
+
+.field__input:focus + .field__label,
+.field__input:not(:placeholder-shown) + .field__label {
+  top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--primary-red);
+  font-weight: 600;
+}
+
+.field__label {
+  position: absolute;
+  top: 1.2rem;
+  left: 1rem;
+  color: #666;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  font-size: 1rem;
+}
+
+.field__help {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.customer-login__actions,
+.customer-register__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.customer-login__forgot-link,
+.customer-login__cancel-link {
+  color: var(--primary-red);
+  text-decoration: none;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.customer-login__forgot-link:hover,
+.customer-login__cancel-link:hover {
+  color: var(--matte-black);
+}
+
+.customer-login__register,
+.customer-register__login {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.customer-login__register p,
+.customer-register__login p {
+  margin-bottom: 1rem;
+  color: var(--dark-gray);
+}
+
+.customer-login__recover {
+  padding: 3rem;
+}
+
+.customer-register__marketing {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.checkbox__input {
+  margin-top: 0.25rem;
+  accent-color: var(--primary-red);
+}
+
+.checkbox__label {
+  font-size: 0.9rem;
+  color: var(--dark-gray);
+  line-height: 1.4;
+}
+
+/* Form Messages */
+.form__message {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.form__message--error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+}
+
+.form__message--success {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #16a34a;
+}
+
+.form__message h2,
+.form__message h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.form__message ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.form__message li {
+  margin-bottom: 0.25rem;
+}
+
+/* Customer Account Styles */
+.customer-account {
+  padding: 2rem 0;
+  min-height: 100vh;
+}
+
+.customer-account__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--light-gray);
+}
+
+.customer-account__title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 3rem;
+  font-weight: 400;
+  color: var(--matte-black);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.customer-account__welcome {
+  font-size: 1.2rem;
+  color: var(--dark-gray);
+  margin: 0.5rem 0 0 0;
+}
+
+.customer-account__logout {
+  color: var(--primary-red);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--primary-red);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.customer-account__logout:hover {
+  background: var(--primary-red);
+  color: white;
+}
+
+.customer-account__overview {
+  display: grid;
+  gap: 2rem;
+}
+
+.account-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.account-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.account-card__title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--matte-black);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 1.5rem 2rem 1rem;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.account-card__content {
+  padding: 2rem;
+}
+
+.account-card__actions {
+  padding: 0 2rem 2rem;
+}
+
+/* Order List */
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.order-item {
+  padding: 1.5rem;
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.order-item:hover {
+  border-color: var(--primary-red);
+}
+
+.order-item__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.order-item__number {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--matte-black);
+  margin: 0;
+}
+
+.order-item__date {
+  color: var(--dark-gray);
+  font-size: 0.9rem;
+}
+
+.order-item__details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.order-item__status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.order-item__status--fulfilled {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.order-item__status--unfulfilled {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.order-item__status--partial {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.order-item__total {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary-red);
+}
+
+.order-item__actions {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Wishlist */
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.wishlist-item {
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wishlist-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.wishlist-item__image {
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.wishlist-item__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.wishlist-item:hover .wishlist-item__image img {
+  transform: scale(1.05);
+}
+
+.wishlist-item__content {
+  padding: 1rem;
+}
+
+.wishlist-item__title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--matte-black);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.wishlist-item__price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary-red);
+  margin: 0 0 1rem 0;
+}
+
+.wishlist-item__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.quick-action {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--matte-black);
+  transition: all 0.3s ease;
+}
+
+.quick-action:hover {
+  border-color: var(--primary-red);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.quick-action__icon {
+  color: var(--primary-red);
+  flex-shrink: 0;
+}
+
+.quick-action__content h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: var(--matte-black);
+}
+
+.quick-action__content p {
+  font-size: 0.9rem;
+  color: var(--dark-gray);
+  margin: 0;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--dark-gray);
+}
+
+.empty-state p {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+/* Button Variations */
+.btn--small {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 750px) {
+  .customer-login__container,
+  .customer-register__container {
+    margin: 1rem;
+    border-radius: 12px;
+  }
+  
+  .customer-login__form-wrapper,
+  .customer-register__form-wrapper,
+  .customer-login__recover {
+    padding: 2rem;
+  }
+  
+  .customer-register__form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .customer-account__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .customer-account__title {
+    font-size: 2.5rem;
+  }
+  
+  .order-item__header,
+  .order-item__details {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .order-item__actions {
+    flex-direction: column;
+  }
+  
+  .wishlist-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .customer-login__title,
+  .customer-register__title {
+    font-size: 2rem;
+  }
+  
+  .customer-account__title {
+    font-size: 2rem;
+  }
+}

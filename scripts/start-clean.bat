@@ -1,0 +1,3 @@
+@echo off
+echo Starting TRAGY Live Website...
+node server-clean.js

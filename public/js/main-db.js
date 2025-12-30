@@ -11,7 +11,7 @@ window.userMenuOpen = false;
 let products = {};
 
 // Initialize app
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     loadProductsFromAPI();
     updateCartCount();
     updateCartDisplay();
@@ -24,14 +24,14 @@ async function loadProductsFromAPI() {
     try {
         const response = await fetch('/api/public/products');
         const data = await response.json();
-        
+
         if (data.success) {
             // Convert array to object for compatibility
             products = {};
             data.products.forEach(product => {
                 products[product.id] = product;
             });
-            
+
             // Update product displays if on homepage
             updateProductDisplays();
         }
@@ -71,7 +71,7 @@ function updateProductDisplays() {
             </div>
         `).join('');
     }
-    
+
     // Update best sellers
     const bestSellersContainer = document.getElementById('bestSellers');
     if (bestSellersContainer) {
@@ -93,11 +93,11 @@ function updateProductDisplays() {
 // Cart functionality
 function addToCart(productId = 1, name, price, size = 'M', quantity = 1) {
     const product = products[productId] || { id: productId, name: name || 'Product', price: price || 0 };
-    
-    const existingItem = window.cart.find(item => 
-        item.id === productId && item.size === size
+
+    const existingItem = window.cart.find(item =>
+        item.id == productId && item.size === size
     );
-    
+
     if (existingItem) {
         existingItem.quantity += quantity;
     } else {
@@ -110,7 +110,7 @@ function addToCart(productId = 1, name, price, size = 'M', quantity = 1) {
             image: product.image
         });
     }
-    
+
     localStorage.setItem('cart', JSON.stringify(window.cart));
     updateCartCount();
     updateCartDisplay();
@@ -140,9 +140,9 @@ function updateCartCount() {
 function updateCartDisplay() {
     const cartItems = document.getElementById('cartItems');
     const cartTotal = document.getElementById('cartTotal');
-    
+
     if (!cartItems || !cartTotal) return;
-    
+
     if (window.cart.length === 0) {
         cartItems.innerHTML = `
             <div class="empty-cart" style="text-align: center; padding: 3rem 0; color: #999;">
@@ -158,7 +158,7 @@ function updateCartDisplay() {
         cartTotal.textContent = '₹0';
         return;
     }
-    
+
     let total = 0;
     cartItems.innerHTML = window.cart.map((item, index) => {
         total += item.price * item.quantity;
@@ -180,7 +180,7 @@ function updateCartDisplay() {
             </div>
         `;
     }).join('');
-    
+
     cartTotal.textContent = `₹${total}`;
 }
 
@@ -204,9 +204,9 @@ async function checkout() {
         showNotification('Your cart is empty', 'warning');
         return;
     }
-    
+
     const total = window.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    
+
     // For demo purposes, create a sample order
     const orderData = {
         customerName: 'Guest Customer',
@@ -215,16 +215,20 @@ async function checkout() {
         items: window.cart,
         shippingAddress: 'Sample Address'
     };
-    
+
     try {
         const response = await fetch('/api/orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(orderData)
         });
-        
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
-        
+
         if (data.success) {
             showNotification('Order placed successfully!', 'success');
             window.cart = [];
@@ -242,7 +246,7 @@ async function checkout() {
 // Search functionality
 function createSearchModal() {
     if (document.getElementById('searchModal')) return;
-    
+
     const searchModal = document.createElement('div');
     searchModal.id = 'searchModal';
     searchModal.innerHTML = `
@@ -274,20 +278,20 @@ function createSearchModal() {
             </div>
         </div>
     `;
-    
+
     document.body.appendChild(searchModal);
 }
 
 function performSearch() {
     const query = document.getElementById('searchInput').value.trim().toLowerCase();
     if (!query) return;
-    
-    const results = Object.values(products).filter(product => 
+
+    const results = Object.values(products).filter(product =>
         product.name.toLowerCase().includes(query) ||
         product.category.toLowerCase().includes(query) ||
         product.description.toLowerCase().includes(query)
     );
-    
+
     displaySearchResults(results, query);
 }
 
@@ -299,19 +303,31 @@ function searchFor(term) {
 function displaySearchResults(results, query) {
     const searchResults = document.getElementById('searchResults');
     
+    // Sanitize query for safe display
+    const safeQuery = query.replace(/[<>"'&]/g, function(match) {
+        const escapeMap = {
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#x27;',
+            '&': '&amp;'
+        };
+        return escapeMap[match];
+    });
+
     if (results.length === 0) {
         searchResults.innerHTML = `
             <div style="text-align: center; padding: 2rem; color: #666;">
-                <p>No results found for "${query}"</p>
+                <p>No results found for "${safeQuery}"</p>
                 <p style="font-size: 0.9rem; margin-top: 0.5rem;">Try searching for t-shirts or streetwear</p>
             </div>
         `;
         return;
     }
-    
+
     searchResults.innerHTML = `
         <h4 style="margin-bottom: 1rem; color: var(--matte-black);">
-            ${results.length} Result${results.length > 1 ? 's' : ''} for "${query}"
+            ${results.length} Result${results.length > 1 ? 's' : ''} for "${safeQuery}"
         </h4>
         ${results.map(product => `
             <div class="search-result-item" onclick="viewProductFromSearch(${product.id})" style="display: flex; align-items: center; padding: 1rem; border-bottom: 1px solid #eee; cursor: pointer;">
@@ -335,22 +351,42 @@ function viewProductFromSearch(productId) {
 // User menu functionality
 function createUserMenu() {
     if (document.getElementById('userMenu')) return;
-    
+
+    let user = null;
+    try {
+        user = JSON.parse(localStorage.getItem('user'));
+    } catch (e) {
+        user = null;
+    }
     const userMenu = document.createElement('div');
     userMenu.id = 'userMenu';
     userMenu.className = 'user-dropdown';
-    userMenu.innerHTML = `
-        <div class="user-menu-content">
-            <div class="user-auth">
-                <h4>Welcome to TRAGY</h4>
-                <p>Sign in to access your account</p>
+
+    if (user) {
+        userMenu.innerHTML = `
+            <div class="user-menu-content">
+                <div class="user-auth">
+                    <h4>Hi, ${user.name}</h4>
+                    <p>${user.email}</p>
+                </div>
+                <div class="user-menu-divider"></div>
+                <button onclick="logout()" class="user-menu-item" style="color: var(--primary-red);">Logout</button>
             </div>
-            <div class="user-menu-divider"></div>
-            <button onclick="showLogin()" class="user-menu-item">Sign In</button>
-            <button onclick="showRegister()" class="user-menu-item">Create Account</button>
-        </div>
-    `;
-    
+        `;
+    } else {
+        userMenu.innerHTML = `
+            <div class="user-menu-content">
+                <div class="user-auth">
+                    <h4>Welcome to TRAGY</h4>
+                    <p>Sign in to access your account</p>
+                </div>
+                <div class="user-menu-divider"></div>
+                <button onclick="window.location.href='login.html'" class="user-menu-item">Sign In</button>
+                <button onclick="window.location.href='register.html'" class="user-menu-item">Create Account</button>
+            </div>
+        `;
+    }
+
     const userIcon = document.querySelector('.user-icon');
     if (userIcon) {
         userIcon.style.position = 'relative';
@@ -358,14 +394,24 @@ function createUserMenu() {
     }
 }
 
+function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.reload();
+}
+
+window.logout = logout;
+
 function showLogin() {
     toggleUserMenu();
-    showNotification('Login functionality coming soon!', 'info');
+    showNotification('Redirecting to login...', 'info');
+    window.location.href = '/login.html';
 }
 
 function showRegister() {
     toggleUserMenu();
-    showNotification('Registration functionality coming soon!', 'info');
+    showNotification('Redirecting to registration...', 'info');
+    window.location.href = '/register.html';
 }
 
 // Product navigation
@@ -381,22 +427,22 @@ function closeAllModals() {
     const overlay = document.querySelector('.cart-overlay');
     if (sidebar) sidebar.classList.remove('open');
     if (overlay) overlay.classList.remove('active');
-    
+
     // Close search
     window.searchOpen = false;
     const modal = document.getElementById('searchModal');
     if (modal) modal.classList.remove('open');
-    
+
     // Close user menu
     window.userMenuOpen = false;
     const menu = document.getElementById('userMenu');
     if (menu) menu.classList.remove('open');
-    
+
     // Close mobile menu
     window.mobileMenuOpen = false;
     const mobileMenu = document.getElementById('mobileMenu');
     if (mobileMenu) mobileMenu.classList.remove('open');
-    
+
     document.body.style.overflow = '';
 }
 
@@ -404,14 +450,14 @@ function closeAllModals() {
 function showNotification(message, type = 'success') {
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
-    
+
     const colors = {
         success: 'var(--primary-red)',
         error: '#dc3545',
         info: '#17a2b8',
         warning: '#ffc107'
     };
-    
+
     notification.style.cssText = `
         position: fixed;
         top: 100px;
@@ -424,10 +470,10 @@ function showNotification(message, type = 'success') {
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         animation: slideInRight 0.4s ease;
     `;
-    
+
     notification.textContent = message;
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
         notification.remove();
     }, 3000);

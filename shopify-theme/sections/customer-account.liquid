@@ -1,0 +1,220 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+<div class="customer-account">
+  <div class="page-width">
+    <div class="customer-account__header">
+      <h1 class="customer-account__title">My Account</h1>
+      <p class="customer-account__welcome">Welcome back, {{ customer.first_name }}!</p>
+      <a href="{{ routes.account_logout_url }}" class="customer-account__logout">Sign Out</a>
+    </div>
+
+    <div class="customer-account__content">
+      
+      <!-- Account Overview -->
+      <div class="customer-account__overview">
+        <div class="account-card">
+          <h2 class="account-card__title">Account Details</h2>
+          <div class="account-card__content">
+            <p><strong>Name:</strong> {{ customer.first_name }} {{ customer.last_name }}</p>
+            <p><strong>Email:</strong> {{ customer.email }}</p>
+            <p><strong>Member since:</strong> {{ customer.created_at | date: "%B %d, %Y" }}</p>
+          </div>
+          <div class="account-card__actions">
+            <a href="{{ routes.account_addresses_url }}" class="btn btn--outline">
+              Manage Addresses
+            </a>
+          </div>
+        </div>
+
+        <!-- Order History -->
+        <div class="account-card">
+          <h2 class="account-card__title">Recent Orders</h2>
+          <div class="account-card__content">
+            {% if customer.orders.size > 0 %}
+              <div class="order-list">
+                {% for order in customer.orders limit: 3 %}
+                  <div class="order-item">
+                    <div class="order-item__header">
+                      <h3 class="order-item__number">Order #{{ order.name }}</h3>
+                      <span class="order-item__date">{{ order.created_at | date: "%B %d, %Y" }}</span>
+                    </div>
+                    <div class="order-item__details">
+                      <span class="order-item__status order-item__status--{{ order.fulfillment_status }}">
+                        {{ order.fulfillment_status | default: 'unfulfilled' | capitalize }}
+                      </span>
+                      <span class="order-item__total">{{ order.total_price | money }}</span>
+                    </div>
+                    <div class="order-item__actions">
+                      <a href="{{ order.customer_url }}" class="btn btn--small btn--outline">
+                        View Details
+                      </a>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+              
+              {% if customer.orders.size > 3 %}
+                <div class="account-card__actions">
+                  <a href="{{ routes.account_orders_url }}" class="btn btn--outline">
+                    View All Orders
+                  </a>
+                </div>
+              {% endif %}
+            {% else %}
+              <div class="empty-state">
+                <p>You haven't placed any orders yet.</p>
+                <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
+                  Start Shopping
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Wishlist -->
+        <div class="account-card">
+          <h2 class="account-card__title">Wishlist</h2>
+          <div class="account-card__content">
+            <div id="wishlist-items" class="wishlist-grid">
+              <!-- Wishlist items will be loaded here via JavaScript -->
+            </div>
+            <div id="empty-wishlist" class="empty-state" style="display: none;">
+              <p>Your wishlist is empty.</p>
+              <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
+                Discover Products
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="account-card">
+          <h2 class="account-card__title">Quick Actions</h2>
+          <div class="account-card__content">
+            <div class="quick-actions">
+              <a href="{{ routes.account_addresses_url }}" class="quick-action">
+                <div class="quick-action__icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                </div>
+                <div class="quick-action__content">
+                  <h3>Addresses</h3>
+                  <p>Manage shipping addresses</p>
+                </div>
+              </a>
+
+              <a href="/pages/contact" class="quick-action">
+                <div class="quick-action__icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                </div>
+                <div class="quick-action__content">
+                  <h3>Support</h3>
+                  <p>Get help with your orders</p>
+                </div>
+              </a>
+
+              <a href="{{ routes.all_products_collection_url }}" class="quick-action">
+                <div class="quick-action__icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="m16 10a4 4 0 0 1-8 0"></path>
+                  </svg>
+                </div>
+                <div class="quick-action__content">
+                  <h3>Shop</h3>
+                  <p>Browse our latest collection</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  loadWishlistItems();
+});
+
+function loadWishlistItems() {
+  const wishlist = JSON.parse(localStorage.getItem('tragy_wishlist')) || [];
+  const wishlistContainer = document.getElementById('wishlist-items');
+  const emptyState = document.getElementById('empty-wishlist');
+  
+  if (wishlist.length === 0) {
+    wishlistContainer.style.display = 'none';
+    emptyState.style.display = 'block';
+    return;
+  }
+  
+  wishlistContainer.style.display = 'grid';
+  emptyState.style.display = 'none';
+  
+  // Fetch product details for wishlist items
+  Promise.all(wishlist.map(productId => 
+    fetch(`/products/${productId}.js`)
+      .then(response => response.json())
+      .catch(() => null)
+  )).then(products => {
+    const validProducts = products.filter(product => product !== null);
+    
+    wishlistContainer.innerHTML = validProducts.map(product => `
+      <div class="wishlist-item">
+        <div class="wishlist-item__image">
+          <img src="${product.featured_image}" alt="${product.title}" loading="lazy">
+        </div>
+        <div class="wishlist-item__content">
+          <h3 class="wishlist-item__title">${product.title}</h3>
+          <p class="wishlist-item__price">${formatMoney(product.price)}</p>
+          <div class="wishlist-item__actions">
+            <button onclick="quickAddToCart(${product.variants[0].id}, '${product.title}')" class="btn btn--small btn--primary">
+              Add to Cart
+            </button>
+            <button onclick="removeFromWishlist(${product.id})" class="btn btn--small btn--outline">
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  });
+}
+
+function removeFromWishlist(productId) {
+  let wishlist = JSON.parse(localStorage.getItem('tragy_wishlist')) || [];
+  wishlist = wishlist.filter(id => id !== productId);
+  localStorage.setItem('tragy_wishlist', JSON.stringify(wishlist));
+  loadWishlistItems();
+  updateWishlistCount();
+  showNotification('Removed from wishlist', 'info');
+}
+
+function formatMoney(cents) {
+  return '$' + (cents / 100).toFixed(2);
+}
+</script>
+
+{% schema %}
+{
+  "name": "Customer Account",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Account Page Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Page Title",
+      "default": "My Account"
+    }
+  ]
+}
+{% endschema %}

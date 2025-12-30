@@ -1,0 +1,162 @@
+<div class="product page-width" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 40px 0;" data-product-id="{{ product.id }}">
+  
+  <!-- Product Images -->
+  <div class="product__media">
+    {% if product.featured_media %}
+      <img src="{{ product.featured_media | image_url: width: 600 }}" 
+           alt="{{ product.featured_media.alt | escape }}" 
+           style="width: 100%; border-radius: 8px;">
+    {% else %}
+      <div style="width: 100%; height: 400px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+        No Image Available
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Product Info -->
+  <div class="product__info">
+    <h1 style="font-size: 2.5rem; margin-bottom: 16px; color: #121212;">{{ product.title }}</h1>
+    
+    <!-- Rating -->
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+      <div class="rating-stars" style="color: #ffc107; font-size: 1.2rem;">★★★★☆</div>
+      <span style="color: #666; font-size: 0.9rem;">(4.2 - 127 reviews)</span>
+    </div>
+
+    <!-- Price -->
+    <div class="product__price" style="margin-bottom: 24px;">
+      <span style="font-size: 1.8rem; font-weight: bold; color: #B00020;">{{ product.price | money }}</span>
+      {% if product.compare_at_price > product.price %}
+        <span style="text-decoration: line-through; color: #999; margin-left: 16px;">{{ product.compare_at_price | money }}</span>
+      {% endif %}
+    </div>
+
+    <!-- Product Form -->
+    <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-form">
+      
+      <!-- Variants -->
+      {% unless product.has_only_default_variant %}
+        {% for option in product.options_with_values %}
+          <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">
+              {{ option.name }}
+              {% if option.name == 'Size' %}
+                <button type="button" onclick="openSizeGuide()" style="float: right; background: none; border: none; color: #B00020; text-decoration: underline; cursor: pointer;">
+                  Size Guide
+                </button>
+              {% endif %}
+            </label>
+            <select name="options[{{ option.name | escape }}]" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 4px; font-size: 16px;">
+              {% for value in option.values %}
+                <option value="{{ value | escape }}">{{ value }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        {% endfor %}
+      {% endunless %}
+
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      
+      <!-- Buttons -->
+      <div style="display: flex; gap: 16px; margin-bottom: 32px;">
+        <button type="submit" id="add-to-cart-btn" style="flex: 1; padding: 16px 32px; background: #B00020; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+          Add to Cart
+        </button>
+        <button type="button" id="wishlist-btn" onclick="toggleWishlist({{ product.id }}, '{{ product.title | escape }}')" style="padding: 16px; background: white; color: #B00020; border: 2px solid #B00020; border-radius: 4px; cursor: pointer; font-size: 20px; transition: all 0.3s;">
+          ♡
+        </button>
+      </div>
+    </form>
+
+    <!-- Rating Form -->
+    <div style="background: #f9f9f9; padding: 24px; border-radius: 8px; margin-bottom: 32px;">
+      <h3 style="margin-bottom: 16px;">Rate this product:</h3>
+      <div class="rating-input" style="display: flex; flex-direction: row-reverse; gap: 4px; margin-bottom: 16px;">
+        <input type="radio" name="rating" value="5" id="star5" style="display: none;">
+        <label for="star5" style="font-size: 24px; color: #ddd; cursor: pointer;">★</label>
+        <input type="radio" name="rating" value="4" id="star4" style="display: none;">
+        <label for="star4" style="font-size: 24px; color: #ddd; cursor: pointer;">★</label>
+        <input type="radio" name="rating" value="3" id="star3" style="display: none;">
+        <label for="star3" style="font-size: 24px; color: #ddd; cursor: pointer;">★</label>
+        <input type="radio" name="rating" value="2" id="star2" style="display: none;">
+        <label for="star2" style="font-size: 24px; color: #ddd; cursor: pointer;">★</label>
+        <input type="radio" name="rating" value="1" id="star1" style="display: none;">
+        <label for="star1" style="font-size: 24px; color: #ddd; cursor: pointer;">★</label>
+      </div>
+      <textarea id="review-text" placeholder="Write your review..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 4px; min-height: 80px; margin-bottom: 16px; resize: vertical;"></textarea>
+      <button type="button" onclick="submitReview()" style="background: #B00020; color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer;">
+        Submit Review
+      </button>
+    </div>
+
+    <!-- Description -->
+    <div class="product__description">
+      <h3 style="margin-bottom: 16px;">Description</h3>
+      <div style="line-height: 1.6; color: #666;">
+        {{ product.description }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Size Guide Modal -->
+<div id="sizeGuideModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999;">
+  <div style="background: white; margin: 5% auto; padding: 32px; width: 90%; max-width: 600px; border-radius: 12px; position: relative;">
+    <button onclick="closeSizeGuide()" style="position: absolute; right: 16px; top: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: #999;">&times;</button>
+    <h2 style="margin-bottom: 24px; text-align: center;">International Size Guide</h2>
+    
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+      <thead>
+        <tr style="background: #121212; color: white;">
+          <th style="padding: 12px; text-align: center;">Size</th>
+          <th style="padding: 12px; text-align: center;">Chest (cm)</th>
+          <th style="padding: 12px; text-align: center;">Waist (cm)</th>
+          <th style="padding: 12px; text-align: center;">Length (cm)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding: 8px; border: 1px solid #ddd; text-align: center;"><strong>S</strong></td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">91-96</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">76-81</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">70</td></tr>
+        <tr style="background: #f9f9f9;"><td style="padding: 8px; border: 1px solid #ddd; text-align: center;"><strong>M</strong></td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">96-101</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">81-86</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">72</td></tr>
+        <tr><td style="padding: 8px; border: 1px solid #ddd; text-align: center;"><strong>L</strong></td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">101-106</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">86-91</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">74</td></tr>
+        <tr style="background: #f9f9f9;"><td style="padding: 8px; border: 1px solid #ddd; text-align: center;"><strong>XL</strong></td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">106-111</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">91-96</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">76</td></tr>
+      </tbody>
+    </table>
+    
+    <div style="background: #f0f0f0; padding: 16px; border-radius: 8px; font-size: 14px; color: #666;">
+      <strong>How to measure:</strong><br>
+      • Chest: Measure around the fullest part<br>
+      • Waist: Measure around natural waistline<br>
+      • Length: Measure from shoulder to hem
+    </div>
+  </div>
+</div>
+
+<style>
+  .rating-input input:checked ~ label,
+  .rating-input label:hover,
+  .rating-input label:hover ~ label {
+    color: #ffc107 !important;
+  }
+  
+  #add-to-cart-btn:hover {
+    background: #8B0000 !important;
+    transform: translateY(-2px);
+  }
+  
+  #wishlist-btn:hover {
+    background: #B00020 !important;
+    color: white !important;
+  }
+  
+  #wishlist-btn.active {
+    background: #B00020 !important;
+    color: white !important;
+  }
+  
+  @media (max-width: 768px) {
+    .product {
+      grid-template-columns: 1fr !important;
+      gap: 24px !important;
+    }
+  }
+</style>

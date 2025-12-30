@@ -1,0 +1,72 @@
+{% comment %}
+  Hero Banner Section for TRAGY Theme
+{% endcomment %}
+
+<section class="hero-banner" style="height: 100vh; background: linear-gradient(135deg, #E6D3B3 0%, #F5F5F5 100%); display: flex; align-items: center; position: relative; overflow: hidden;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; z-index: 2;">
+    <div style="max-width: 600px;">
+      <h1 style="font-family: 'Bebas Neue', cursive; font-size: clamp(3rem, 8vw, 6rem); font-weight: 400; line-height: 0.9; margin-bottom: 1.5rem; color: #121212; letter-spacing: 3px; text-transform: uppercase;">
+        {{ section.settings.hero_title | default: 'WEAR THE TRAGEDY' }}
+      </h1>
+      
+      <p style="font-size: 1.25rem; color: #333; margin-bottom: 2.5rem; line-height: 1.6;">
+        {{ section.settings.hero_subtitle | default: 'Streetwear built from chaos, pressure, and self-expression.' }}
+        <br><span style="font-size: 0.9rem; color: #B00020; font-weight: 600;">{{ section.settings.hero_tagline | default: 'Limited drops. No restocks.' }}</span>
+      </p>
+      
+      {% if section.settings.hero_button_text != blank %}
+        <a href="{{ section.settings.hero_button_link | default: routes.all_products_collection_url }}" 
+           style="display: inline-block; padding: 1.2rem 2.5rem; background: linear-gradient(135deg, #B00020 0%, #8B0000 100%); color: white; text-decoration: none; font-family: 'Bebas Neue', cursive; font-size: 1.1rem; font-weight: 400; border-radius: 4px; text-transform: uppercase; letter-spacing: 2px; transition: all 0.4s; position: relative; overflow: hidden;"
+           onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 40px rgba(176, 0, 32, 0.3)'"
+           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+          {{ section.settings.hero_button_text | default: 'ENTER THE DROP' }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+  
+  <!-- Background Pattern -->
+  <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.1; background-image: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"grain\" width=\"100\" height=\"100\" patternUnits=\"userSpaceOnUse\"><circle cx=\"50\" cy=\"50\" r=\"0.5\" fill=\"%23000\" opacity=\"0.02\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23grain)\"/></svg>'); pointer-events: none;"></div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "WEAR THE TRAGEDY"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subtitle",
+      "label": "Hero Subtitle",
+      "default": "Streetwear built from chaos, pressure, and self-expression."
+    },
+    {
+      "type": "text",
+      "id": "hero_tagline",
+      "label": "Hero Tagline",
+      "default": "Limited drops. No restocks."
+    },
+    {
+      "type": "text",
+      "id": "hero_button_text",
+      "label": "Button Text",
+      "default": "ENTER THE DROP"
+    },
+    {
+      "type": "url",
+      "id": "hero_button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
+    }
+  ]
+}
+{% endschema %}

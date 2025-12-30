@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product - TRAGY</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -15,12 +14,7 @@
                 <img src="images/logo.png" alt="TRAGY Logo" class="logo-image">
                 <span class="logo-text">TRAGY</span>
             </a>
-            <ul class="nav-links">
-                <li><a href="/shop">Shop</a></li>
-                <li><a href="/collections">Collections</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact">Contact</a></li>
-            </ul>
+            <ul class="nav-links" style="display: none;"></ul>
             <div class="nav-actions">
                 <div class="search-icon" onclick="toggleSearch()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -54,101 +48,180 @@
     </header>
 
     <main style="padding-top: 120px;">
-        <div class="container">
-            <nav style="margin-bottom: 2rem; color: #666; font-size: 0.9rem;">
-                <a href="/" style="color: #666; text-decoration: none;">Home</a> > 
-                <a href="/shop" style="color: #666; text-decoration: none;">Shop</a> > 
-                <span id="breadcrumbProduct">Product</span>
-            </nav>
+        <div class="product-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto; padding: 40px 20px;">
             
-            <div class="product-detail" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin: 2rem 0;">
-                <div class="product-images">
-                    <div class="main-image" style="margin-bottom: 1rem;">
-                        <img id="productImage" src="images/loading.png" alt="Product" style="width: 100%; border-radius: 12px; box-shadow: var(--shadow);">
+            <!-- Product Image Gallery -->
+            <div class="product-media">
+                <div class="image-gallery" style="position: relative; overflow: hidden; border-radius: 8px; cursor: zoom-in;" onclick="openFullscreen()">
+                    <div class="image-container" id="imageContainer" style="display: flex; transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);">
+                        <img class="gallery-image active" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop" alt="Product" style="width: 100%; flex-shrink: 0; object-fit: cover;">
+                        <img class="gallery-image" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=600&fit=crop" alt="Product" style="width: 100%; flex-shrink: 0; object-fit: cover;">
+                        <img class="gallery-image" src="https://images.unsplash.com/photo-1583743814966-8936f37f4678?w=600&h=600&fit=crop" alt="Product" style="width: 100%; flex-shrink: 0; object-fit: cover;">
                     </div>
-                    <div class="thumbnail-images" style="display: flex; gap: 1rem; justify-content: center;">
-                        <img src="images/loading.png" alt="Thumbnail" style="width: 80px; height: 80px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.3s ease;" onclick="changeMainImage(this.src)">
-                        <img src="images/loading.png" alt="Thumbnail" style="width: 80px; height: 80px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.3s ease;" onclick="changeMainImage(this.src)">
-                        <img src="images/loading.png" alt="Thumbnail" style="width: 80px; height: 80px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.3s ease;" onclick="changeMainImage(this.src)">
+                    <button class="nav-btn prev-btn" onclick="event.stopPropagation(); previousImage()" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); transition: all 0.3s ease;">‹</button>
+                    <button class="nav-btn next-btn" onclick="event.stopPropagation(); nextImage()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); transition: all 0.3s ease;">›</button>
+                    <div class="image-dots" style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px;">
+                        <span class="dot active" onclick="event.stopPropagation(); goToImage(0)" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.3s ease;"></span>
+                        <span class="dot" onclick="event.stopPropagation(); goToImage(1)" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.3s ease;"></span>
+                        <span class="dot" onclick="event.stopPropagation(); goToImage(2)" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.3s ease;"></span>
                     </div>
-                </div>
-                
-                <div class="product-info-detail">
-                    <h1 id="productName" style="font-family: 'Bebas Neue', cursive; font-size: 2.5rem; margin-bottom: 1rem; letter-spacing: 2px;">Loading...</h1>
-                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                        <p id="productPrice" style="font-size: 1.8rem; color: var(--primary-red); font-weight: 700;">₹0</p>
-                        <div class="rating" style="display: flex; align-items: center; gap: 0.5rem;">
-                            <div style="color: #ffc107;">★★★★☆</div>
-                            <span style="color: #666; font-size: 0.9rem;">(4.2)</span>
-                        </div>
-                    </div>
-                    
-                    <p id="productDescription" style="color: var(--dark-gray); margin-bottom: 2rem; line-height: 1.6;">Loading description...</p>
-                    
-                    <div class="product-features" style="margin-bottom: 2rem;">
-                        <h3 style="margin-bottom: 1rem; font-family: 'Bebas Neue', cursive; letter-spacing: 1px;">Features:</h3>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">✓ Premium cotton blend</li>
-                            <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">✓ Comfortable fit</li>
-                            <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">✓ Machine washable</li>
-                            <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">✓ Durable construction</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="size-selector" style="margin-bottom: 2rem;">
-                        <h3 style="margin-bottom: 1rem; font-family: 'Bebas Neue', cursive; letter-spacing: 1px;">Size:</h3>
-                        <div id="sizeOptions" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                            <!-- Size buttons will be populated by JavaScript -->
-                        </div>
-                        <a href="#" style="color: var(--primary-red); font-size: 0.9rem; text-decoration: none; margin-top: 0.5rem; display: inline-block;">Size Guide</a>
-                    </div>
-                    
-                    <div class="quantity-selector" style="margin-bottom: 2rem;">
-                        <h3 style="margin-bottom: 1rem; font-family: 'Bebas Neue', cursive; letter-spacing: 1px;">Quantity:</h3>
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <div style="display: flex; align-items: center; border: 2px solid #ddd; border-radius: 8px; overflow: hidden;">
-                                <button onclick="changeQuantity(-1)" style="padding: 1rem 1.5rem; border: none; background: var(--light-gray); cursor: pointer; transition: background 0.3s ease;">-</button>
-                                <span id="quantity" style="padding: 1rem 1.5rem; min-width: 60px; text-align: center; font-weight: 600;">1</span>
-                                <button onclick="changeQuantity(1)" style="padding: 1rem 1.5rem; border: none; background: var(--light-gray); cursor: pointer; transition: background 0.3s ease;">+</button>
-                            </div>
-                            <span style="color: #666; font-size: 0.9rem;">In Stock</span>
-                        </div>
-                    </div>
-                    
-                    <div class="product-actions" style="display: flex; gap: 1rem; margin-bottom: 2rem;">
-                        <button onclick="addToCartFromProduct()" class="btn" style="flex: 2;">Add to Cart</button>
-                        <button onclick="toggleWishlist()" class="btn btn-outline" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                            </svg>
-                            Wishlist
-                        </button>
-                    </div>
-                    
-                    <div class="shipping-info" style="background: var(--light-gray); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-                        <h4 style="margin-bottom: 1rem; font-family: 'Bebas Neue', cursive; letter-spacing: 1px;">Shipping & Returns</h4>
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--dark-gray);">
-                            <div>🚚 Free shipping on orders over ₹1,500</div>
-                            <div>📦 Standard delivery: 3-5 business days</div>
-                            <div>↩️ 30-day return policy</div>
-                            <div>🔒 Secure payment options</div>
-                        </div>
-                    </div>
-                    
-                    <button onclick="goBack()" class="btn btn-outline" style="width: 100%;">← Back to Shop</button>
                 </div>
             </div>
-            
-            <!-- Related Products -->
-            <section style="margin-top: 4rem;">
-                <h2 class="section-title" style="font-size: 2rem;">You Might Also Like</h2>
-                <div class="product-grid" id="relatedProducts" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-                    <!-- Related products will be loaded by JavaScript -->
+
+            <!-- Product Info -->
+            <div class="product-info">
+                <!-- Product Name First -->
+                <h1 id="productTitle" style="font-size: 2.8rem; margin-bottom: 8px; color: #121212; font-family: 'Bebas Neue', cursive; letter-spacing: 2px;">Loading...</h1>
+                
+                <!-- Price directly under name -->
+                <div style="margin-bottom: 16px;">
+                    <span id="productPrice" style="font-size: 2rem; font-weight: bold; color: #B00020;">₹0</span>
                 </div>
-            </section>
+                
+                <!-- Rating -->
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 24px;">
+                    <div style="color: #ffc107; font-size: 1.2rem;">★★★★☆</div>
+                    <span style="color: #666; font-size: 0.9rem;">(4.2 - 127 reviews)</span>
+                </div>
+
+                <!-- Size Selection -->
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">
+                        Size
+                        <button type="button" onclick="openSizeGuide()" style="float: right; background: none; border: none; color: #B00020; text-decoration: underline; cursor: pointer;">
+                            Size Guide
+                        </button>
+                    </label>
+                    <select id="sizeSelect" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 4px; font-size: 16px;">
+                        <option value="S">S</option>
+                        <option value="M" selected>M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                    </select>
+                </div>
+
+                <!-- Buttons -->
+                <div style="display: flex; gap: 16px; margin-bottom: 32px;">
+                    <button onclick="addToCartFromProduct()" style="flex: 1; padding: 16px 32px; background: #B00020; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        Add to Cart
+                    </button>
+                    <button onclick="toggleWishlistFromProduct()" id="wishlistBtn" style="padding: 16px; background: white; color: #B00020; border: 2px solid #B00020; border-radius: 4px; cursor: pointer; font-size: 20px; transition: all 0.3s;">
+                        ♡
+                    </button>
+                </div>
+
+                <!-- Rating Form -->
+                <div style="background: #f9f9f9; padding: 24px; border-radius: 8px; margin-bottom: 32px;">
+                    <h3 style="margin-bottom: 16px;">Rate this product:</h3>
+                    <div class="rating-input" style="display: flex; flex-direction: row-reverse; gap: 4px; margin-bottom: 16px;">
+                        <input type="radio" name="rating" value="5" id="star5" style="display: none;">
+                        <label for="star5" style="font-size: 24px; color: #ddd; cursor: pointer;">★</label>
+                        <input type="radio" name="rating" value="4" id="star4" style="display: none;">
+                        <label for="star4" style="font-size: 24px; color: #ddd; cursor: pointer;">★</label>
+                        <input type="radio" name="rating" value="3" id="star3" style="display: none;">
+                        <label for="star3" style="font-size: 24px; color: #ddd; cursor: pointer;">★</label>
+                        <input type="radio" name="rating" value="2" id="star2" style="display: none;">
+                        <label for="star2" style="font-size: 24px; color: #ddd; cursor: pointer;">★</label>
+                        <input type="radio" name="rating" value="1" id="star1" style="display: none;">
+                        <label for="star1" style="font-size: 24px; color: #ddd; cursor: pointer;">★</label>
+                    </div>
+                    <textarea id="reviewText" placeholder="Write your review..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 4px; min-height: 80px; margin-bottom: 16px; resize: vertical;"></textarea>
+                    <button onclick="submitReview()" style="background: #B00020; color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer;">
+                        Submit Review
+                    </button>
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <h3 style="margin-bottom: 16px;">Description</h3>
+                    <div id="productDescription" style="line-height: 1.6; color: #666;">
+                        Loading description...
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
+    <!-- Fullscreen Image Modal -->
+    <div id="fullscreenModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; cursor: zoom-out;" onclick="closeFullscreen()">
+        <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+            <img id="fullscreenImage" style="max-width: 90%; max-height: 90%; object-fit: contain; border-radius: 8px;">
+            <button onclick="event.stopPropagation(); closeFullscreen()" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer; color: #333;">&times;</button>
+            <button onclick="event.stopPropagation(); fullscreenPrevious()" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer; color: #333;">‹</button>
+            <button onclick="event.stopPropagation(); fullscreenNext()" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer; color: #333;">›</button>
+        </div>
+    </div>
+
+    <!-- Size Guide Modal -->
+    <div id="sizeGuideModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999;">
+        <div style="background: white; margin: 5% auto; padding: 32px; width: 90%; max-width: 600px; border-radius: 12px; position: relative;">
+            <button onclick="closeSizeGuide()" style="position: absolute; right: 16px; top: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: #999;">&times;</button>
+            <h2 style="margin-bottom: 24px; text-align: center;">International Size Guide</h2>
+            
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+                <thead>
+                    <tr style="background: #121212; color: white;">
+                        <th style="padding: 12px; text-align: center;">Size</th>
+                        <th style="padding: 12px; text-align: center;">Chest (cm)</th>
+                        <th style="padding: 12px; text-align: center;">Waist (cm)</th>
+                        <th style="padding: 12px; text-align: center;">Length (cm)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td style="padding: 8px; border: 1px solid #ddd; text-align: center;"><strong>S</strong></td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">91-96</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">76-81</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">70</td></tr>
+                    <tr style="background: #f9f9f9;"><td style="padding: 8px; border: 1px solid #ddd; text-align: center;"><strong>M</strong></td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">96-101</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">81-86</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">72</td></tr>
+                    <tr><td style="padding: 8px; border: 1px solid #ddd; text-align: center;"><strong>L</strong></td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">101-106</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">86-91</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">74</td></tr>
+                    <tr style="background: #f9f9f9;"><td style="padding: 8px; border: 1px solid #ddd; text-align: center;"><strong>XL</strong></td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">106-111</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">91-96</td><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">76</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                <button id="cartTab" onclick="switchTab('cart')" style="flex: 1; padding: 0.5rem; border: none; background: var(--primary-red); color: white; cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="m16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    Cart
+                </button>
+                <button id="wishlistTab" onclick="switchTab('wishlist')" style="flex: 1; padding: 0.5rem; border: 2px solid var(--primary-red); background: white; color: var(--primary-red); cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    Wishlist
+                </button>
+            </div>
+            <button class="cart-close" onclick="toggleCart()">&times;</button>
+        </div>
+        <div id="cartContent">
+            <div id="cartItems">
+                <p style="color: #999; text-align: center; margin-top: 2rem;">Your cart is empty</p>
+            </div>
+            <div class="cart-total" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem;">
+                    <span>Total: </span>
+                    <span id="cartTotal">₹0</span>
+                </div>
+                <a href="/checkout" class="btn" style="width: 100%; text-align: center; margin-top: 1rem;">Checkout</a>
+            </div>
+        </div>
+        <div id="wishlistContent" style="display: none;">
+            <div id="wishlistItems">
+                <p style="color: #999; text-align: center; margin-top: 2rem;">Your wishlist is empty</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="toggleMobileMenu()"></div>
+    
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
@@ -159,34 +232,465 @@
             <button class="cart-close" onclick="toggleMobileMenu()">&times;</button>
         </div>
         <ul class="mobile-nav-links">
-            <li><a href="/shop">Shop</a></li>
-            <li><a href="/collections">Collections</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href="/shop">DROP</a></li>
+            <li><a href="/collections">LOOKBOOK</a></li>
+            <li><a href="orders.html">ORDERS</a></li>
+            <li><a href="/about">ABOUT</a></li>
+            <li><a href="/contact">CONTACT</a></li>
         </ul>
     </div>
 
-    <!-- Cart Sidebar -->
-    <div class="cart-overlay" onclick="toggleCart()"></div>
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h3>Shopping Cart</h3>
-            <button class="cart-close" onclick="toggleCart()">&times;</button>
-        </div>
-        <div id="cartItems">
-            <p style="color: #999; text-align: center; margin-top: 2rem;">Your cart is empty</p>
-        </div>
-        <div class="cart-total" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
-            <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem;">
-                <span>Total: </span>
-                <span id="cartTotal">₹0</span>
+    <footer class="footer">
+        <div class="container">
+            <div class="live-visitors" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 2rem; color: #666; font-size: 0.9rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #ff0000;">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span id="visitorCount">0</span> people are viewing this site right now
             </div>
-            <a href="/checkout" class="btn" style="width: 100%; text-align: center; margin-top: 1rem;">Checkout</a>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SHOP</h3>
+                    <ul>
+                        <li><a href="collections.html">Collections</a></li>
+                        <li><a href="sale.html">Sale</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>SUPPORT</h3>
+                    <ul>
+                        <li><a href="shipping.html">Shipping Info</a></li>
+                        <li><a href="returns.html">Returns</a></li>
+                        <li><a href="#" onclick="showSizeGuide()">Size Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>COMPANY</h3>
+                    <ul>
+                        <li><a href="sustainability.html">Sustainability</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>CONNECT</h3>
+                    <ul>
+                        <li><a href="https://wa.me/1234567890">WhatsApp</a></li>
+                        <li><a href="mailto:info@tragy.com">Email</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>TRAGY — Built from pressure, worn with purpose.</p>
+            </div>
         </div>
-    </div>
+    </footer>
 
     <script src="js/main-fixed.js"></script>
-    <script src="js/header-animations.js"></script>
-    <script src="js/product.js"></script>
+    <script src="js/cart-wishlist.js"></script>
+    <script src="js/footer-functions.js"></script>
+    <script>
+        let currentProduct = null;
+        let currentImageIndex = 0;
+        let productImages = [
+            'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop',
+            'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=600&fit=crop',
+            'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&h=600&fit=crop'
+        ];
+        
+        // Image gallery functions
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % productImages.length;
+            updateImageGallery();
+        }
+        
+        function previousImage() {
+            currentImageIndex = (currentImageIndex - 1 + productImages.length) % productImages.length;
+            updateImageGallery();
+        }
+        
+        function goToImage(index) {
+            currentImageIndex = index;
+            updateImageGallery();
+        }
+        
+        function updateImageGallery() {
+            const container = document.getElementById('imageContainer');
+            const dots = document.querySelectorAll('.dot');
+            
+            // Smooth slide animation
+            container.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+            
+            // Update dots
+            dots.forEach((dot, index) => {
+                if (index === currentImageIndex) {
+                    dot.classList.add('active');
+                    dot.style.background = 'rgba(255,255,255,0.8)';
+                } else {
+                    dot.classList.remove('active');
+                    dot.style.background = 'rgba(255,255,255,0.4)';
+                }
+            });
+        }
+        
+        // Auto-slide functionality (optional)
+        let autoSlideInterval;
+        
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                nextImage();
+            }, 4000);
+        }
+        
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+        
+        // Fullscreen functions
+        function openFullscreen() {
+            const modal = document.getElementById('fullscreenModal');
+            const fullscreenImg = document.getElementById('fullscreenImage');
+            
+            fullscreenImg.src = productImages[currentImageIndex];
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            stopAutoSlide();
+        }
+        
+        function closeFullscreen() {
+            const modal = document.getElementById('fullscreenModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+            startAutoSlide();
+        }
+        
+        function fullscreenNext() {
+            currentImageIndex = (currentImageIndex + 1) % productImages.length;
+            document.getElementById('fullscreenImage').src = productImages[currentImageIndex];
+            updateImageGallery();
+        }
+        
+        function fullscreenPrevious() {
+            currentImageIndex = (currentImageIndex - 1 + productImages.length) % productImages.length;
+            document.getElementById('fullscreenImage').src = productImages[currentImageIndex];
+            updateImageGallery();
+        }
+        
+        // Keyboard navigation for fullscreen
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('fullscreenModal');
+            if (modal.style.display === 'block') {
+                if (e.key === 'Escape') closeFullscreen();
+                if (e.key === 'ArrowLeft') fullscreenPrevious();
+                if (e.key === 'ArrowRight') fullscreenNext();
+            }
+        });
+        
+        // Touch/swipe support for mobile
+        let startX = 0;
+        let endX = 0;
+        
+        document.getElementById('imageContainer').addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            stopAutoSlide();
+        });
+        
+        document.getElementById('imageContainer').addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            handleSwipe();
+            startAutoSlide();
+        });
+        
+        // Fullscreen touch support
+        document.getElementById('fullscreenModal').addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+        
+        document.getElementById('fullscreenModal').addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            handleFullscreenSwipe();
+        });
+        
+        function handleSwipe() {
+            const threshold = 50;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0) {
+                    nextImage();
+                } else {
+                    previousImage();
+                }
+            }
+        }
+        
+        function handleFullscreenSwipe() {
+            const threshold = 50;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0) {
+                    fullscreenNext();
+                } else {
+                    fullscreenPrevious();
+                }
+            }
+        }
+        
+        // Load product data
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProductData();
+            updateCartCount();
+            updateCartDisplay();
+            
+            // Add hover effects for navigation buttons
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    btn.style.background = 'rgba(255,255,255,1)';
+                    btn.style.transform = 'translateY(-50%) scale(1.1)';
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.background = 'rgba(255,255,255,0.9)';
+                    btn.style.transform = 'translateY(-50%) scale(1)';
+                });
+            });
+            
+            // Add hover effects for dots
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach(dot => {
+                dot.addEventListener('mouseenter', () => {
+                    if (!dot.classList.contains('active')) {
+                        dot.style.background = 'rgba(255,255,255,0.6)';
+                        dot.style.transform = 'scale(1.2)';
+                    }
+                });
+                dot.addEventListener('mouseleave', () => {
+                    if (!dot.classList.contains('active')) {
+                        dot.style.background = 'rgba(255,255,255,0.4)';
+                        dot.style.transform = 'scale(1)';
+                    }
+                });
+            });
+            
+            // Pause auto-slide on hover
+            const gallery = document.querySelector('.image-gallery');
+            gallery.addEventListener('mouseenter', stopAutoSlide);
+            gallery.addEventListener('mouseleave', startAutoSlide);
+        });
+
+        function loadProductData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id') || '1';
+            
+            // Try to load from database first
+            fetch('/api/public/products')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const product = data.products.find(p => p.id == productId);
+                        if (product) {
+                            displayProduct(product);
+                            return;
+                        }
+                    }
+                    // Fallback to sample data
+                    loadSampleProduct(productId);
+                })
+                .catch(() => {
+                    loadSampleProduct(productId);
+                });
+        }
+
+        function loadSampleProduct(productId) {
+            const sampleProducts = {
+                '1': { id: 1, name: 'Oversized Graphic Tee', price: 1299, description: 'Premium cotton oversized streetwear tee with unique graphic design. Perfect for casual wear and street style. Features high-quality screen printing and comfortable fit.', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop' },
+                '2': { id: 2, name: 'Vintage Streetwear Tee', price: 1199, description: 'Retro-inspired street style t-shirt with vintage wash and comfortable fit. Made from premium cotton blend with distressed details.', image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=600&fit=crop' },
+                '3': { id: 3, name: 'Urban Logo Tee', price: 999, description: 'Minimalist logo design streetwear with premium cotton blend material. Clean aesthetic with subtle branding.', image: 'https://images.unsplash.com/photo-1583743814966-8936f37f4678?w=600&h=600&fit=crop' },
+                '4': { id: 4, name: 'Black Hoodie Premium', price: 2499, description: 'Premium black hoodie with soft fleece interior and adjustable drawstrings. Perfect for layering and street style.', image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&h=600&fit=crop' },
+                '5': { id: 5, name: 'Distressed Denim Jacket', price: 3299, description: 'Classic distressed denim jacket with vintage wash and modern fit. Authentic wear patterns and premium denim.', image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&h=600&fit=crop' },
+                '6': { id: 6, name: 'Cargo Pants Street', price: 1899, description: 'Tactical cargo pants with multiple pockets and comfortable fit. Durable construction for everyday wear.', image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&h=600&fit=crop' }
+            };
+            
+            const product = sampleProducts[productId] || sampleProducts['1'];
+            displayProduct(product);
+        }
+
+        function displayProduct(product) {
+            currentProduct = product;
+            document.getElementById('productTitle').textContent = product.name;
+            document.getElementById('productPrice').textContent = `₹${product.price}`;
+            document.getElementById('productDescription').textContent = product.description;
+            
+            // Update gallery images
+            const images = document.querySelectorAll('.gallery-image');
+            images.forEach((img, index) => {
+                img.src = productImages[index] || product.image;
+                img.alt = product.name;
+            });
+            
+            // Start auto-slide
+            startAutoSlide();
+        }
+
+        function addToCartFromProduct() {
+            if (!currentProduct) return;
+            
+            const size = document.getElementById('sizeSelect').value;
+            const btn = event.target;
+            const originalText = btn.textContent;
+            
+            btn.textContent = 'Adding...';
+            btn.disabled = true;
+            
+            // Add to cart
+            addToCart(currentProduct.id, currentProduct.name, currentProduct.price, size, 1);
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }, 1000);
+        }
+
+        function toggleWishlistFromProduct() {
+            if (!currentProduct) return;
+            
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const btn = document.getElementById('wishlistBtn');
+            
+            if (wishlist.find(item => item.id === currentProduct.id)) {
+                removeFromWishlist(currentProduct.id);
+                btn.textContent = '♡';
+                showNotification('Removed from wishlist', 'info');
+            } else {
+                addToWishlist(currentProduct.id, currentProduct.name, currentProduct.price, productImages[0]);
+                btn.textContent = '♥';
+            }
+        }
+
+        function submitReview() {
+            const rating = document.querySelector('input[name="rating"]:checked');
+            const reviewText = document.getElementById('reviewText').value;
+            
+            if (!rating) {
+                showNotification('Please select a rating', 'error');
+                return;
+            }
+            
+            if (!reviewText.trim()) {
+                showNotification('Please write a review', 'error');
+                return;
+            }
+            
+            // Store review locally
+            const reviews = JSON.parse(localStorage.getItem('reviews')) || {};
+            if (!reviews[currentProduct.id]) {
+                reviews[currentProduct.id] = [];
+            }
+            
+            reviews[currentProduct.id].push({
+                rating: parseInt(rating.value),
+                text: reviewText,
+                date: new Date().toISOString()
+            });
+            
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+            showNotification('Review submitted successfully!', 'success');
+            
+            // Reset form
+            document.querySelector('input[name="rating"]:checked').checked = false;
+            document.getElementById('reviewText').value = '';
+        }
+
+        function openSizeGuide() {
+            document.getElementById('sizeGuideModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSizeGuide() {
+            document.getElementById('sizeGuideModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function toggleCart() {
+            const sidebar = document.getElementById('cartSidebar');
+            const overlay = document.querySelector('.cart-overlay');
+            
+            if (sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            } else {
+                sidebar.classList.add('open');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Rating stars functionality
+        document.querySelectorAll('.rating-input input').forEach(input => {
+            input.addEventListener('change', function() {
+                const labels = document.querySelectorAll('.rating-input label');
+                labels.forEach((label, index) => {
+                    if (index >= (5 - this.value)) {
+                        label.style.color = '#ffc107';
+                    } else {
+                        label.style.color = '#ddd';
+                    }
+                });
+            });
+        });
+
+        // Rating hover effect
+        document.querySelectorAll('.rating-input label').forEach((label, index) => {
+            label.addEventListener('mouseenter', function() {
+                const labels = document.querySelectorAll('.rating-input label');
+                labels.forEach((l, i) => {
+                    if (i >= index) {
+                        l.style.color = '#ffc107';
+                    } else {
+                        l.style.color = '#ddd';
+                    }
+                });
+            });
+        });
+
+        document.querySelector('.rating-input').addEventListener('mouseleave', function() {
+            const checked = document.querySelector('.rating-input input:checked');
+            const labels = document.querySelectorAll('.rating-input label');
+            
+            labels.forEach((label, index) => {
+                if (checked && index >= (5 - checked.value)) {
+                    label.style.color = '#ffc107';
+                } else {
+                    label.style.color = '#ddd';
+                }
+            });
+        });
+        // Initialize visitor tracking
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const response = await fetch('/api/visitor/join', { method: 'POST' });
+                const data = await response.json();
+                document.getElementById('visitorCount').textContent = data.count;
+                
+                setInterval(async () => {
+                    try {
+                        const pingResponse = await fetch('/api/visitor/ping', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ sessionId: data.sessionId })
+                        });
+                        const pingData = await pingResponse.json();
+                        document.getElementById('visitorCount').textContent = pingData.count;
+                    } catch (error) {
+                        console.warn('Visitor ping failed:', error);
+                    }
+                }, 5000);
+            } catch (error) {
+                console.warn('Visitor tracking failed:', error);
+                document.getElementById('visitorCount').textContent = '1';
+            }
+        });
+    </script>
 </body>
 </html>

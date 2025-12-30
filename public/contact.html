@@ -189,12 +189,7 @@
                 <img src="images/logo.png" alt="TRAGY Logo" class="logo-image">
                 <span class="logo-text">TRAGY</span>
             </a>
-            <ul class="nav-links">
-                <li><a href="/shop">Shop</a></li>
-                <li><a href="/collections">Collections</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact" style="color: var(--primary-red);">Contact</a></li>
-            </ul>
+            <ul class="nav-links" style="display: none;"></ul>
             <div class="nav-actions">
                 <div class="search-icon" onclick="toggleSearch()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -436,6 +431,9 @@
         </section>
     </main>
 
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="toggleMobileMenu()"></div>
+    
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
@@ -446,10 +444,11 @@
             <button class="cart-close" onclick="toggleMobileMenu()">&times;</button>
         </div>
         <ul class="mobile-nav-links">
-            <li><a href="/shop">Shop</a></li>
-            <li><a href="/collections">Collections</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href="/shop">DROP</a></li>
+            <li><a href="/collections">LOOKBOOK</a></li>
+            <li><a href="orders.html">ORDERS</a></li>
+            <li><a href="/about">ABOUT</a></li>
+            <li><a href="/contact" class="active">CONTACT</a></li>
         </ul>
     </div>
 
@@ -457,60 +456,91 @@
     <div class="cart-overlay" onclick="toggleCart()"></div>
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
-            <h3>Shopping Cart</h3>
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                <button id="cartTab" onclick="switchTab('cart')" style="flex: 1; padding: 0.5rem; border: none; background: var(--primary-red); color: white; cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="m16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    Cart
+                </button>
+                <button id="wishlistTab" onclick="switchTab('wishlist')" style="flex: 1; padding: 0.5rem; border: 2px solid var(--primary-red); background: white; color: var(--primary-red); cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    Wishlist
+                </button>
+            </div>
             <button class="cart-close" onclick="toggleCart()">&times;</button>
         </div>
-        <div id="cartItems">
-            <p style="color: #999; text-align: center; margin-top: 2rem;">Your cart is empty</p>
-        </div>
-        <div class="cart-total" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
-            <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem;">
-                <span>Total: </span>
-                <span id="cartTotal">$0</span>
+        <div id="cartContent">
+            <div id="cartItems">
+                <p style="color: #999; text-align: center; margin-top: 2rem;">Your cart is empty</p>
             </div>
-            <a href="/checkout" class="btn" style="width: 100%; text-align: center; margin-top: 1rem;">Checkout</a>
+            <div class="cart-total" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem;">
+                    <span>Total: </span>
+                    <span id="cartTotal">₹0</span>
+                </div>
+                <a href="/checkout" class="btn" style="width: 100%; text-align: center; margin-top: 1rem;">Checkout</a>
+            </div>
+        </div>
+        <div id="wishlistContent" style="display: none;">
+            <div id="wishlistItems">
+                <p style="color: #999; text-align: center; margin-top: 2rem;">Your wishlist is empty</p>
+            </div>
         </div>
     </div>
 
     <footer class="footer">
         <div class="container">
+            <div class="live-visitors" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 2rem; color: #666; font-size: 0.9rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #ff0000;">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span id="visitorCount">0</span> people are viewing this site right now
+            </div>
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Shop</h3>
-                    <a href="/shop">All Products</a>
-                    <a href="/collections">Collections</a>
-                    <a href="/new-arrivals">New Arrivals</a>
-                    <a href="/sale">Sale</a>
+                    <h3>SHOP</h3>
+                    <ul>
+                        <li><a href="collections.html">Collections</a></li>
+                        <li><a href="sale.html">Sale</a></li>
+                    </ul>
                 </div>
                 <div class="footer-section">
-                    <h3>Support</h3>
-                    <a href="/contact">Contact Us</a>
-                    <a href="/shipping">Shipping Info</a>
-                    <a href="/returns">Returns</a>
-                    <a href="/size-guide">Size Guide</a>
+                    <h3>SUPPORT</h3>
+                    <ul>
+                        <li><a href="shipping.html">Shipping Info</a></li>
+                        <li><a href="returns.html">Returns</a></li>
+                        <li><a href="#" onclick="showSizeGuide()">Size Guide</a></li>
+                    </ul>
                 </div>
                 <div class="footer-section">
-                    <h3>Company</h3>
-                    <a href="/about">About TRAGY</a>
-                    <a href="/careers">Careers</a>
-                    <a href="/press">Press</a>
-                    <a href="/sustainability">Sustainability</a>
+                    <h3>COMPANY</h3>
+                    <ul>
+                        <li><a href="sustainability.html">Sustainability</a></li>
+                    </ul>
                 </div>
                 <div class="footer-section">
-                    <h3>Connect</h3>
-                    <a href="#">Instagram</a>
-                    <a href="#">Twitter</a>
-                    <a href="#">Facebook</a>
-                    <a href="/newsletter">Newsletter</a>
+                    <h3>CONNECT</h3>
+                    <ul>
+                        <li><a href="https://wa.me/1234567890">WhatsApp</a></li>
+                        <li><a href="mailto:info@tragy.com">Email</a></li>
+                    </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 TRAGY. All rights reserved.</p>
+                <p>TRAGY — Built from pressure, worn with purpose.</p>
             </div>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script src="js/main-fixed.js"></script>
+    <script src="js/cart-wishlist.js"></script>
+    <script src="js/footer-functions.js"></script>
     <script>
         // Contact form functionality
         document.getElementById('contactForm').addEventListener('submit', function(e) {
@@ -552,6 +582,27 @@
                 button.classList.add('active');
             }
         }
+        
+        // Initialize visitor tracking
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const response = await fetch('/api/visitor/join', { method: 'POST' });
+                const data = await response.json();
+                document.getElementById('visitorCount').textContent = data.count;
+                
+                setInterval(async () => {
+                    const pingResponse = await fetch('/api/visitor/ping', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ sessionId: data.sessionId })
+                    });
+                    const pingData = await pingResponse.json();
+                    document.getElementById('visitorCount').textContent = pingData.count;
+                }, 5000);
+            } catch (error) {
+                document.getElementById('visitorCount').textContent = '1';
+            }
+        });
         
         // Make function globally available
         window.toggleFAQ = toggleFAQ;

@@ -30,13 +30,13 @@ async function loadProducts() {
             updateProductDisplays();
         }
     } catch (error) {
-        console.error('Failed to load products:', error);
-        // Fallback to sample data if database fails
+        console.warn('Failed to load products from API, using fallback data:', error);
+        // Use minimal fallback - will be replaced when API is available
         products = {
-            1: { id: 1, name: 'Oversized Graphic Tee', price: 1299, category: 'tshirts', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop', description: 'Premium cotton oversized streetwear tee', sizes: ['S', 'M', 'L', 'XL', 'XXL'] },
-            2: { id: 2, name: 'Vintage Streetwear Tee', price: 1199, category: 'tshirts', image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&h=400&fit=crop', description: 'Retro-inspired street style t-shirt', sizes: ['S', 'M', 'L', 'XL', 'XXL'] },
-            3: { id: 3, name: 'Urban Logo Tee', price: 999, category: 'tshirts', image: 'https://images.unsplash.com/photo-1583743814966-8936f37f4678?w=400&h=400&fit=crop', description: 'Minimalist logo design streetwear', sizes: ['S', 'M', 'L', 'XL', 'XXL'] }
+            1: { id: 1, name: 'Product Loading...', price: 0, category: 'loading', image: 'images/loading.png', description: 'Loading product data...', sizes: ['M'] }
         };
+        // Retry loading after delay
+        setTimeout(() => loadProducts(), 5000);
     }
 }
 
@@ -48,18 +48,19 @@ function updateProductDisplays() {
     const featuredContainer = document.getElementById('featuredProducts');
     if (featuredContainer && productArray.length > 0) {
         featuredContainer.innerHTML = productArray.slice(0, 3).map(product => `
-            <div class="product-card" onclick="viewProduct(${product.id})">
-                <div class="product-image">
-                    <img src="${product.image || 'images/loading.png'}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">
-                    <div class="product-overlay">
-                        <button class="quick-view-btn">Quick View</button>
+                    <div class="product-card" onclick="viewProduct(${product.id})">
+                        <div class="product-image">
+                            <img src="${product.image || 'images/loading.png'}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="product-overlay">
+                                <button class="quick-view-btn">Quick View</button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">${product.name}</h3>
+                            <p class="product-price">₹${product.price}</p>
+                            <p style="font-size: 0.8rem; color: var(--primary-red); font-weight: 600;">NO RESTOCK.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">${product.name}</h3>
-                    <p class="product-price">₹${product.price}</p>
-                </div>
-            </div>
         `).join('');
     }
     
@@ -84,6 +85,7 @@ function updateProductDisplays() {
 document.addEventListener('DOMContentLoaded', function() {
     updateCartCount();
     updateCartDisplay();
+    updateWishlistDisplay();
     createSearchModal();
     createUserMenu();
     loadProducts(); // Load products from database
@@ -263,11 +265,15 @@ function searchFor(term) {
 
 function displaySearchResults(results, query) {
     const searchResults = document.getElementById('searchResults');
+    const sanitizedQuery = query.replace(/[<>"'&]/g, function(match) {
+        const escapeMap = { '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;', '&': '&amp;' };
+        return escapeMap[match];
+    });
     
     if (results.length === 0) {
         searchResults.innerHTML = `
             <div style="text-align: center; padding: 2rem; color: #666;">
-                <p>No results found for "${query}"</p>
+                <p>No results found for "${sanitizedQuery}"</p>
                 <p style="font-size: 0.9rem; margin-top: 0.5rem;">Try searching for t-shirts or streetwear</p>
             </div>
         `;
@@ -276,7 +282,7 @@ function displaySearchResults(results, query) {
     
     searchResults.innerHTML = `
         <h4 style="margin-bottom: 1rem; color: var(--matte-black);">
-            ${results.length} Result${results.length > 1 ? 's' : ''} for "${query}"
+            ${results.length} Result${results.length > 1 ? 's' : ''} for "${sanitizedQuery}"
         </h4>
         ${results.map(product => `
             <div class="search-result-item" onclick="viewProductFromSearch(${product.id})" style="display: flex; align-items: center; padding: 1rem; border-bottom: 1px solid #eee; cursor: pointer;">
@@ -325,12 +331,14 @@ function createUserMenu() {
 
 function showLogin() {
     toggleUserMenu();
-    showNotification('Login functionality coming soon!', 'info');
+    showNotification('Redirecting to login...', 'info');
+    window.location.href = '/login.html';
 }
 
 function showRegister() {
     toggleUserMenu();
-    showNotification('Registration functionality coming soon!', 'info');
+    showNotification('Redirecting to registration...', 'info');
+    window.location.href = '/register.html';
 }
 
 // Product navigation
@@ -339,6 +347,7 @@ function viewProduct(productId) {
 }
 
 // Close all modals helper
+// Close all modals with mobile-specific cleanup
 function closeAllModals() {
     if (window.cartOpen) {
         window.cartOpen = false;
@@ -360,44 +369,197 @@ function closeAllModals() {
     if (window.mobileMenuOpen) {
         window.mobileMenuOpen = false;
         const menu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('mobileMenuOverlay');
+        const toggle = document.querySelector('.mobile-menu-toggle');
         if (menu) menu.classList.remove('open');
+        if (overlay) overlay.classList.remove('active');
+        if (toggle) toggle.classList.remove('active');
     }
+    
+    // Reset body styles
     document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
 }
 
 // Enhanced notification system
+// Enhanced notification system with mobile positioning
 function showNotification(message, type = 'success') {
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(n => n.remove());
+    
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     
+    const icons = {
+        success: '✓',
+        error: '✕',
+        info: 'ℹ',
+        warning: '⚠'
+    };
+    
     const colors = {
-        success: 'var(--primary-red)',
+        success: '#B00020',
         error: '#dc3545',
         info: '#17a2b8',
         warning: '#ffc107'
     };
     
+    // Mobile-responsive positioning
+    const isMobile = window.innerWidth <= 768;
+    const topPosition = isMobile ? '20px' : '100px';
+    const rightPosition = isMobile ? '10px' : '20px';
+    const leftPosition = isMobile ? '10px' : 'auto';
+    const width = isMobile ? 'calc(100% - 20px)' : 'auto';
+    
     notification.style.cssText = `
         position: fixed;
-        top: 100px;
-        right: 20px;
+        top: ${topPosition};
+        right: ${rightPosition};
+        left: ${leftPosition};
+        width: ${width};
+        max-width: ${isMobile ? 'none' : '400px'};
         background: ${colors[type]};
         color: white;
-        padding: 1rem 2rem;
+        padding: 1rem 1.5rem;
         border-radius: 8px;
         z-index: 3000;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         animation: slideInRight 0.4s ease;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: ${isMobile ? '0.9rem' : '1rem'};
     `;
     
-    notification.textContent = message;
+    notification.textContent = `${icons[type]} ${message}`;
+    
     document.body.appendChild(notification);
     
     setTimeout(() => {
-        notification.remove();
+        if (document.body.contains(notification)) {
+            notification.remove();
+        }
     }, 3000);
 }
 
+// Toggle functions
+// Enhanced cart toggle with mobile improvements
+function toggleCart() {
+    const sidebar = document.getElementById('cartSidebar');
+    const overlay = document.querySelector('.cart-overlay');
+    
+    if (!sidebar || !overlay) return;
+    
+    window.cartOpen = !window.cartOpen;
+    
+    if (window.cartOpen) {
+        closeAllModals();
+        sidebar.classList.add('open');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Mobile-specific handling
+        if (window.innerWidth <= 768) {
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
+        }
+    } else {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+    }
+}
+
+function toggleSearch() {
+    const searchModal = document.getElementById('searchModal');
+    const searchInput = document.getElementById('searchInput');
+    
+    if (!searchModal) return;
+    
+    window.searchOpen = !window.searchOpen;
+    
+    if (window.searchOpen) {
+        closeAllModals();
+        searchModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => {
+            if (searchInput) searchInput.focus();
+        }, 300);
+    } else {
+        searchModal.classList.remove('open');
+        document.body.style.overflow = '';
+        if (searchInput) searchInput.value = '';
+        resetSearchResults();
+    }
+}
+
+function toggleUserMenu() {
+    const userMenu = document.getElementById('userMenu');
+    if (!userMenu) return;
+    
+    window.userMenuOpen = !window.userMenuOpen;
+    
+    if (window.userMenuOpen) {
+        closeAllModals();
+        userMenu.classList.add('open');
+    } else {
+        userMenu.classList.remove('open');
+    }
+}
+
+// Toggle mobile menu with improved mobile handling
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    const overlay = document.getElementById('mobileMenuOverlay');
+    const toggle = document.querySelector('.mobile-menu-toggle');
+    
+    if (!mobileMenu) return;
+    
+    window.mobileMenuOpen = !window.mobileMenuOpen;
+    
+    if (window.mobileMenuOpen) {
+        // Close other modals first
+        closeAllModals();
+        mobileMenu.classList.add('open');
+        if (overlay) overlay.classList.add('active');
+        if (toggle) toggle.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Prevent background scrolling on mobile
+        document.body.style.position = 'fixed';
+        document.body.style.width = '100%';
+    } else {
+        mobileMenu.classList.remove('open');
+        if (overlay) overlay.classList.remove('active');
+        if (toggle) toggle.classList.remove('active');
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+    }
+}
+
+function resetSearchResults() {
+    const searchResults = document.getElementById('searchResults');
+    if (searchResults) {
+        searchResults.innerHTML = `
+            <div class="search-suggestions">
+                <h4>Popular Searches</h4>
+                <div class="suggestion-tags">
+                    <span onclick="searchFor('tshirt')">T-Shirts</span>
+                    <span onclick="searchFor('streetwear')">Streetwear</span>
+                    <span onclick="searchFor('oversized')">Oversized</span>
+                    <span onclick="searchFor('graphic')">Graphic Tees</span>
+                </div>
+            </div>
+        `;
+    }
+}
 // Export functions for global access
 window.addToCart = addToCart;
 window.removeFromCart = removeFromCart;
@@ -410,6 +572,60 @@ window.showLogin = showLogin;
 window.showRegister = showRegister;
 window.closeAllModals = closeAllModals;
 window.showNotification = showNotification;
+window.toggleCart = toggleCart;
+window.toggleSearch = toggleSearch;
+window.toggleUserMenu = toggleUserMenu;
+window.toggleMobileMenu = toggleMobileMenu;
 window.products = products;
 window.loadProducts = loadProducts;
 window.updateProductDisplays = updateProductDisplays;
+window.addToWishlist = addToWishlist;
+window.removeFromWishlist = removeFromWishlist;
+window.updateWishlistDisplay = updateWishlistDisplay;
+
+// Wishlist functionality
+function addToWishlist(productId, name, price, image) {
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    
+    if (!wishlist.find(item => item.id === productId)) {
+        wishlist.push({ id: productId, name, price, image });
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        updateWishlistDisplay();
+        showNotification(`${name} added to wishlist!`, 'success');
+    }
+}
+
+function removeFromWishlist(productId) {
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    wishlist = wishlist.filter(item => item.id !== productId);
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    updateWishlistDisplay();
+}
+
+function updateWishlistDisplay() {
+    const wishlistItems = document.getElementById('wishlistItems');
+    if (!wishlistItems) return;
+    
+    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    
+    if (wishlist.length === 0) {
+        wishlistItems.innerHTML = `
+            <div style="text-align: center; padding: 3rem 0; color: #999;">
+                <p>Your wishlist is empty</p>
+                <p style="font-size: 0.9rem; margin-top: 0.5rem;">Add some items you love</p>
+            </div>
+        `;
+        return;
+    }
+    
+    wishlistItems.innerHTML = wishlist.map(item => `
+        <div class="wishlist-item" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-bottom: 1px solid #eee;">
+            <div style="flex: 1;">
+                <h4 style="margin-bottom: 0.5rem; font-size: 1rem;">${item.name}</h4>
+                <p style="color: var(--primary-red); font-weight: 600;">₹${item.price}</p>
+                <button onclick="addToCart(${item.id}, '${item.name}', ${item.price}, 'M', 1)" style="background: var(--primary-red); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-top: 0.5rem;">Add to Cart</button>
+            </div>
+            <button onclick="removeFromWishlist(${item.id})" style="background: none; border: none; color: #999; cursor: pointer; font-size: 1.5rem; padding: 0.5rem;">&times;</button>
+        </div>
+    `).join('');
+}

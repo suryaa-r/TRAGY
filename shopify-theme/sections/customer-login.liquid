@@ -1,0 +1,191 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+<div class="customer-login">
+  <div class="page-width">
+    <div class="customer-login__container">
+      
+      <!-- Login Form -->
+      <div class="customer-login__form-wrapper">
+        <h1 class="customer-login__title">Sign In</h1>
+        <p class="customer-login__subtitle">Welcome back to TRAGY</p>
+        
+        {% form 'customer_login', novalidate: 'novalidate', class: 'customer-login__form' %}
+          {%- if form.errors -%}
+            <div class="form__message form__message--error">
+              <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
+                {{ 'templates.contact.form.error_heading' | t }}
+              </h2>
+              <ul>
+                {%- for field in form.errors -%}
+                  <li>
+                    {%- if field == 'form' -%}
+                      {{ form.errors.messages[field] }}
+                    {%- else -%}
+                      {{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          <div class="field">
+            <input
+              type="email"
+              name="customer[email]"
+              id="CustomerEmail"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              class="field__input"
+              placeholder=" "
+              {%- if form.email -%}value="{{ form.email }}"{%- endif -%}
+              required
+            >
+            <label class="field__label" for="CustomerEmail">Email</label>
+          </div>
+
+          <div class="field">
+            <input
+              type="password"
+              name="customer[password]"
+              id="CustomerPassword"
+              autocomplete="current-password"
+              class="field__input"
+              placeholder=" "
+              required
+            >
+            <label class="field__label" for="CustomerPassword">Password</label>
+          </div>
+
+          <div class="customer-login__actions">
+            <button type="submit" class="btn btn--primary">
+              Sign In
+            </button>
+            <a href="#recover" class="customer-login__forgot-link">
+              Forgot your password?
+            </a>
+          </div>
+        {% endform %}
+        
+        <div class="customer-login__register">
+          <p>Don't have an account?</p>
+          <a href="{{ routes.account_register_url }}" class="btn btn--outline">
+            Create Account
+          </a>
+        </div>
+      </div>
+
+      <!-- Password Recovery Form -->
+      <div id="recover" class="customer-login__recover" style="display: none;">
+        <h2>Reset your password</h2>
+        <p>We will send you an email to reset your password.</p>
+        
+        {% form 'recover_customer_password', novalidate: 'novalidate' %}
+          {%- if form.posted_successfully? -%}
+            <div class="form__message form__message--success">
+              <h3 class="form-status caption-large text-body" role="status" tabindex="-1" autofocus>
+                {{ 'customer.recover_password.success' | t }}
+              </h3>
+            </div>
+          {%- endif -%}
+
+          {%- if form.errors -%}
+            <div class="form__message form__message--error">
+              <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
+                {{ 'templates.contact.form.error_heading' | t }}
+              </h2>
+              <ul>
+                {%- for field in form.errors -%}
+                  <li>
+                    {%- if field == 'form' -%}
+                      {{ form.errors.messages[field] }}
+                    {%- else -%}
+                      {{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          <div class="field">
+            <input
+              type="email"
+              name="email"
+              id="RecoverEmail"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              class="field__input"
+              placeholder=" "
+              required
+            >
+            <label class="field__label" for="RecoverEmail">Email</label>
+          </div>
+
+          <div class="customer-login__actions">
+            <button type="submit" class="btn btn--primary">
+              Submit
+            </button>
+            <a href="#" onclick="hideRecoverPasswordForm(); return false;" class="customer-login__cancel-link">
+              Cancel
+            </a>
+          </div>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showRecoverPasswordForm() {
+    document.querySelector('.customer-login__form-wrapper').style.display = 'none';
+    document.querySelector('.customer-login__recover').style.display = 'block';
+  }
+
+  function hideRecoverPasswordForm() {
+    document.querySelector('.customer-login__form-wrapper').style.display = 'block';
+    document.querySelector('.customer-login__recover').style.display = 'none';
+  }
+
+  // Handle forgot password link
+  document.addEventListener('DOMContentLoaded', function() {
+    const forgotLink = document.querySelector('.customer-login__forgot-link');
+    if (forgotLink) {
+      forgotLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        showRecoverPasswordForm();
+      });
+    }
+
+    // Check if we should show recovery form based on URL hash
+    if (window.location.hash === '#recover') {
+      showRecoverPasswordForm();
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Customer Login",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Login Page Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Page Title",
+      "default": "Sign In"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Page Subtitle",
+      "default": "Welcome back to TRAGY"
+    }
+  ]
+}
+{% endschema %}

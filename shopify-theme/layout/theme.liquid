@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ page_title }}{% unless page_title contains shop.name %} - {{ shop.name }}{% endunless %}</title>
+  
+  {{ content_for_header }}
+  
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  {% section 'header' %}
+  
+  <main>
+    {{ content_for_layout }}
+  </main>
+  
+  {% section 'footer' %}
+  
+  {{ 'tragy-sync.js' | asset_url | script_tag }}
+  <script>
+    window.routes = {
+      cart_add_url: '{{ routes.cart_add_url }}',
+      cart_url: '{{ routes.cart_url }}'
+    };
+  </script>
+</body>
+</html>

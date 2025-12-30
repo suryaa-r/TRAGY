@@ -1,0 +1,198 @@
+<div class="collection page-width" style="padding: 40px 0;">
+  <div style="text-align: center; margin-bottom: 48px;">
+    <h1 style="font-size: 3rem; margin-bottom: 16px; color: #121212;">{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <p style="color: #666; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">{{ collection.description }}</p>
+    {% endif %}
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px;">
+    {% for product in collection.products %}
+      <div class="product-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: all 0.3s; position: relative;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 8px 30px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.1)'">
+        
+        <!-- Product Image -->
+        <div style="position: relative; overflow: hidden;">
+          <a href="{{ product.url }}">
+            {% if product.featured_media %}
+              <img src="{{ product.featured_media | image_url: width: 400 }}" 
+                   alt="{{ product.title }}" 
+                   style="width: 100%; height: 300px; object-fit: cover; transition: transform 0.3s;"
+                   onmouseover="this.style.transform='scale(1.05)'"
+                   onmouseout="this.style.transform='scale(1)'">
+            {% else %}
+              <div style="width: 100%; height: 300px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #999;">
+                No Image
+              </div>
+            {% endif %}
+          </a>
+          
+          <!-- Quick Actions -->
+          <div class="product-actions" style="position: absolute; top: 12px; right: 12px; display: flex; flex-direction: column; gap: 8px; opacity: 0; transition: opacity 0.3s;">
+            <button onclick="quickAddToCart({{ product.selected_or_first_available_variant.id }}, '{{ product.title | escape }}')" style="background: white; border: none; padding: 8px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.3s; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;" onmouseover="this.style.background='#B00020'; this.style.color='white'" onmouseout="this.style.background='white'; this.style.color='black'">
+              +
+            </button>
+            <button onclick="toggleWishlistFromCard({{ product.id }}, '{{ product.title | escape }}')" style="background: white; border: none; padding: 8px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.3s; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 16px;" onmouseover="this.style.background='#B00020'; this.style.color='white'" onmouseout="this.style.background='white'; this.style.color='black'">
+              ♡
+            </button>
+          </div>
+        </div>
+        
+        <!-- Product Info -->
+        <div style="padding: 20px;">
+          <!-- Rating -->
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <div style="color: #ffc107; font-size: 14px;">★★★★☆</div>
+            <span style="color: #666; font-size: 12px;">({{ product.id | modulo: 50 | plus: 10 }})</span>
+          </div>
+          
+          <!-- Title -->
+          <h3 style="margin-bottom: 8px;">
+            <a href="{{ product.url }}" style="text-decoration: none; color: #121212; font-size: 1.1rem; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#B00020'" onmouseout="this.style.color='#121212'">
+              {{ product.title }}
+            </a>
+          </h3>
+          
+          <!-- Price -->
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+            <span style="color: #B00020; font-weight: bold; font-size: 1.1rem;">{{ product.price | money }}</span>
+            {% if product.compare_at_price > product.price %}
+              <span style="text-decoration: line-through; color: #999; font-size: 0.9rem;">{{ product.compare_at_price | money }}</span>
+            {% endif %}
+          </div>
+          
+          <!-- Quick Add Button -->
+          <button onclick="quickAddToCart({{ product.selected_or_first_available_variant.id }}, '{{ product.title | escape }}')" style="width: 100%; background: #B00020; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='#8B0000'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#B00020'; this.style.transform='translateY(0)'">
+            Quick Add
+          </button>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .product-card:hover .product-actions {
+    opacity: 1 !important;
+  }
+  
+  @media (max-width: 768px) {
+    .product-actions {
+      opacity: 1 !important;
+    }
+  }
+</style>
+
+<script>
+function quickAddToCart(variantId, productTitle) {
+  const btn = event.target;
+  const originalText = btn.textContent;
+  
+  btn.textContent = 'Adding...';
+  btn.disabled = true;
+  
+  const formData = new FormData();
+  formData.append('id', variantId);
+  formData.append('quantity', 1);
+  
+  fetch('{{ routes.cart_add_url }}', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status) {
+      throw new Error(data.description);
+    }
+    
+    showNotification(productTitle + ' added to cart!', 'success');
+    updateCartCount();
+  })
+  .catch(error => {
+    showNotification(error.message, 'error');
+  })
+  .finally(() => {
+    btn.textContent = originalText;
+    btn.disabled = false;
+  });
+}
+
+function toggleWishlistFromCard(productId, productTitle) {
+  let wishlist = JSON.parse(localStorage.getItem('tragy_wishlist')) || [];
+  const btn = event.target;
+  
+  if (wishlist.includes(productId)) {
+    wishlist = wishlist.filter(id => id !== productId);
+    btn.textContent = '♡';
+    showNotification('Removed from wishlist', 'info');
+  } else {
+    wishlist.push(productId);
+    btn.textContent = '♥';
+    showNotification(productTitle + ' added to wishlist!', 'success');
+  }
+  
+  localStorage.setItem('tragy_wishlist', JSON.stringify(wishlist));
+  updateWishlistCount();
+}
+
+function updateCartCount() {
+  fetch('{{ routes.cart_url }}.js')
+    .then(response => response.json())
+    .then(cart => {
+      const cartCount = document.getElementById('cart-count');
+      if (cartCount) {
+        cartCount.textContent = cart.item_count;
+        cartCount.style.display = cart.item_count > 0 ? 'flex' : 'none';
+      }
+    });
+}
+
+function updateWishlistCount() {
+  const wishlist = JSON.parse(localStorage.getItem('tragy_wishlist')) || [];
+  const wishlistCount = document.getElementById('wishlist-count');
+  
+  if (wishlistCount) {
+    wishlistCount.textContent = wishlist.length;
+    wishlistCount.style.display = wishlist.length > 0 ? 'flex' : 'none';
+  }
+}
+
+function showNotification(message, type) {
+  const colors = {
+    success: '#B00020',
+    error: '#dc3545',
+    info: '#17a2b8'
+  };
+  
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${colors[type]};
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    z-index: 10000;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  `;
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+}
+
+// Initialize wishlist states on page load
+document.addEventListener('DOMContentLoaded', function() {
+  const wishlist = JSON.parse(localStorage.getItem('tragy_wishlist')) || [];
+  
+  document.querySelectorAll('[onclick*="toggleWishlistFromCard"]').forEach(btn => {
+    const productId = parseInt(btn.getAttribute('onclick').match(/\d+/)[0]);
+    if (wishlist.includes(productId)) {
+      btn.textContent = '♥';
+    }
+  });
+});
+</script>

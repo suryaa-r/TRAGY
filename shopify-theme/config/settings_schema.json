@@ -1,0 +1,227 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "TRAGY",
+    "theme_version": "1.0.0",
+    "theme_author": "TRAGY Team",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Brand Colors"
+      },
+      {
+        "type": "color",
+        "id": "primary_red",
+        "label": "Primary Red",
+        "default": "#B00020"
+      },
+      {
+        "type": "color",
+        "id": "matte_black",
+        "label": "Matte Black",
+        "default": "#121212"
+      },
+      {
+        "type": "color",
+        "id": "warm_beige",
+        "label": "Warm Beige",
+        "default": "#E6D3B3"
+      },
+      {
+        "type": "color",
+        "id": "light_gray",
+        "label": "Light Gray",
+        "default": "#F5F5F5"
+      },
+      {
+        "type": "color",
+        "id": "dark_gray",
+        "label": "Dark Gray",
+        "default": "#333333"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Fonts"
+      },
+      {
+        "type": "font_picker",
+        "id": "heading_font",
+        "label": "Heading font",
+        "default": "bebas_neue_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "body_font",
+        "label": "Body font",
+        "default": "poppins_n4"
+      },
+      {
+        "type": "range",
+        "id": "base_font_size",
+        "min": 14,
+        "max": 18,
+        "step": 1,
+        "unit": "px",
+        "label": "Base font size",
+        "default": 16
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Page Layout"
+      },
+      {
+        "type": "range",
+        "id": "page_width",
+        "min": 1000,
+        "max": 1400,
+        "step": 50,
+        "unit": "px",
+        "label": "Page width",
+        "default": 1200
+      },
+      {
+        "type": "range",
+        "id": "section_spacing",
+        "min": 40,
+        "max": 100,
+        "step": 10,
+        "unit": "px",
+        "label": "Section spacing",
+        "default": 60
+      }
+    ]
+  },
+  {
+    "name": "Product Cards",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Product Display"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show product vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_product_type",
+        "label": "Show product type",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "product_image_ratio",
+        "label": "Product image ratio",
+        "options": [
+          {
+            "value": "natural",
+            "label": "Natural"
+          },
+          {
+            "value": "square",
+            "label": "Square (1:1)"
+          },
+          {
+            "value": "portrait",
+            "label": "Portrait (3:4)"
+          }
+        ],
+        "default": "natural"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Cart Settings"
+      },
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart type",
+        "options": [
+          {
+            "value": "drawer",
+            "label": "Drawer"
+          },
+          {
+            "value": "page",
+            "label": "Page"
+          }
+        ],
+        "default": "drawer"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_cart_notes",
+        "label": "Enable cart notes",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social Accounts"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "info": "https://instagram.com/tragy"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "TikTok"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "Will be scaled down to 32 x 32px"
+      }
+    ]
+  }
+]

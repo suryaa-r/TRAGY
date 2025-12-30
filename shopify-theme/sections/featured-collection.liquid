@@ -1,0 +1,175 @@
+{% comment %}
+  Featured Collection Section for TRAGY Theme
+{% endcomment %}
+
+{% assign collection = collections[section.settings.collection] %}
+
+<section style="padding: 6rem 0; background: white;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+    
+    <div style="text-align: center; margin-bottom: 4rem;">
+      <h2 style="font-family: 'Bebas Neue', cursive; font-size: 3.5rem; font-weight: 400; color: #121212; position: relative; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1rem;">
+        {{ section.settings.heading | default: 'CURRENT DROP' }}
+      </h2>
+      
+      {% if section.settings.subheading != blank %}
+        <div style="margin-bottom: 2rem;">
+          <h3 style="font-size: 1.5rem; color: #B00020; margin-bottom: 1rem; font-weight: 600;">
+            {{ section.settings.subheading }}
+          </h3>
+          {% if section.settings.description != blank %}
+            <p style="font-size: 1.1rem; color: #333; max-width: 500px; margin: 0 auto; line-height: 1.6;">
+              {{ section.settings.description }}
+            </p>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if collection != blank and collection.products.size > 0 %}
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem;">
+        {% for product in collection.products limit: section.settings.products_to_show %}
+          <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); transition: all 0.4s; cursor: pointer; position: relative;"
+               onclick="window.location.href='{{ product.url }}'"
+               onmouseover="this.style.transform='translateY(-10px) scale(1.02)'; this.style.boxShadow='0 20px 60px rgba(0, 0, 0, 0.15)'"
+               onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 20px rgba(0, 0, 0, 0.1)'">
+            
+            <div style="width: 100%; height: 400px; position: relative; overflow: hidden;">
+              {% if product.featured_image %}
+                <img src="{{ product.featured_image | img_url: '600x600' }}" 
+                     alt="{{ product.featured_image.alt | escape }}"
+                     style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s;"
+                     onmouseover="this.style.transform='scale(1.1)'"
+                     onmouseout="this.style.transform='scale(1)'">
+              {% else %}
+                <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #B00020, #E6D3B3); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; font-weight: 600;">
+                  {{ product.title }}
+                </div>
+              {% endif %}
+              
+              <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s;"
+                   onmouseover="this.style.opacity='1'"
+                   onmouseout="this.style.opacity='0'">
+                <button style="padding: 0.75rem 1.5rem; background: white; color: #121212; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; transition: all 0.3s;"
+                        onmouseover="this.style.background='#B00020'; this.style.color='white'"
+                        onmouseout="this.style.background='white'; this.style.color='#121212'">
+                  Quick View
+                </button>
+              </div>
+            </div>
+
+            <div style="padding: 2rem; position: relative; z-index: 2;">
+              <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem; color: #121212; transition: color 0.3s;">
+                {{ product.title }}
+              </h3>
+              
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <p style="font-size: 1.2rem; font-weight: 700; color: #B00020;">
+                  {{ product.price | money }}
+                  {% if product.compare_at_price > product.price %}
+                    <span style="font-size: 0.9rem; color: #999; text-decoration: line-through; margin-left: 0.5rem;">
+                      {{ product.compare_at_price | money }}
+                    </span>
+                  {% endif %}
+                </p>
+                
+                {% if section.settings.show_vendor and product.vendor != blank %}
+                  <span style="font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 1px;">
+                    {{ product.vendor }}
+                  </span>
+                {% endif %}
+              </div>
+              
+              <p style="font-size: 0.8rem; color: #B00020; font-weight: 600; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                {{ section.settings.product_tagline | default: 'NO RESTOCK.' }}
+              </p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      
+      {% if section.settings.show_view_all and collection.products.size > section.settings.products_to_show %}
+        <div style="text-align: center; margin-top: 3rem;">
+          <a href="{{ collection.url }}" 
+             style="display: inline-block; padding: 1rem 2rem; background: transparent; color: #121212; text-decoration: none; border: 2px solid #121212; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s;"
+             onmouseover="this.style.background='#121212'; this.style.color='white'"
+             onmouseout="this.style.background='transparent'; this.style.color='#121212'">
+            View All Products
+          </a>
+        </div>
+      {% endif %}
+      
+    {% else %}
+      <div style="text-align: center; padding: 4rem 2rem; color: #666;">
+        <p style="font-size: 1.1rem; margin-bottom: 1rem;">No products found in this collection.</p>
+        <a href="{{ routes.all_products_collection_url }}" 
+           style="color: #B00020; text-decoration: none; font-weight: 600;">
+          Browse All Products
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "CURRENT DROP"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "DROP 001 — PRESSURE"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Built for nights that don't end and days that hit hard. Each piece is limited. Once it's gone, it's gone."
+    },
+    {
+      "type": "text",
+      "id": "product_tagline",
+      "label": "Product Tagline",
+      "default": "NO RESTOCK."
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Products to show",
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show product vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View all' button",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection"
+    }
+  ]
+}
+{% endschema %}

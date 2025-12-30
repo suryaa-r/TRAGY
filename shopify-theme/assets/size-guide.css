@@ -1,0 +1,119 @@
+/* Size Guide Modal Styles */
+.size-guide-modal {
+  display: none;
+  position: fixed;
+  z-index: 3000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  backdrop-filter: blur(5px);
+}
+
+.size-guide-content {
+  background-color: white;
+  margin: 2% auto;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.size-guide-close {
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #999;
+  background: none;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.size-guide-close:hover {
+  background: var(--light-gray);
+  color: var(--primary-red);
+  transform: rotate(90deg);
+}
+
+.size-guide-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--matte-black);
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.size-guide-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.size-guide-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+.size-guide-table th,
+.size-guide-table td {
+  padding: 0.75rem;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.size-guide-table th {
+  background: var(--matte-black);
+  color: white;
+  font-family: 'Bebas Neue', cursive;
+  letter-spacing: 1px;
+}
+
+.size-guide-table tr:nth-child(even) {
+  background: var(--light-gray);
+}
+
+.size-guide-note {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--light-gray);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--dark-gray);
+}
+
+@media (max-width: 768px) {
+  .size-guide-content {
+    margin: 5% auto;
+    padding: 1.5rem;
+    width: 95%;
+  }
+  
+  .size-guide-title {
+    font-size: 1.5rem;
+  }
+  
+  .size-guide-table {
+    font-size: 0.8rem;
+  }
+  
+  .size-guide-table th,
+  .size-guide-table td {
+    padding: 0.5rem 0.25rem;
+  }
+}

@@ -31,7 +31,7 @@ class MemoryBank:
         self._save_memories()
         return memory_id
     
-    def retrieve(self, query: str = None, tags: List[str] = None, limit: int = 10) -> List[Dict]:
+    def retrieve(self, query: str = None, tags: List[str] = None, min_priority: int = None, limit: int = 10) -> List[Dict]:
         results = self.memories["memories"]
         
         if tags:
@@ -39,6 +39,9 @@ class MemoryBank:
         
         if query:
             results = [m for m in results if query.lower() in m["content"].lower()]
+        
+        if min_priority:
+            results = [m for m in results if m["priority"] >= min_priority]
         
         return sorted(results, key=lambda x: x["priority"], reverse=True)[:limit]
     
@@ -50,9 +53,22 @@ class MemoryBank:
             return True
         return False
     
+    def update(self, memory_id: str, content: str = None, tags: List[str] = None, priority: int = None) -> bool:
+        for memory in self.memories["memories"]:
+            if memory["id"] == memory_id:
+                if content: memory["content"] = content
+                if tags is not None: memory["tags"] = tags
+                if priority is not None: memory["priority"] = priority
+                memory["timestamp"] = datetime.now().isoformat()
+                self._save_memories()
+                return True
+        return False
+    
     def get_stats(self) -> Dict[str, Any]:
+        priorities = [m["priority"] for m in self.memories["memories"]]
         return {
             "total_memories": len(self.memories["memories"]),
+            "avg_priority": sum(priorities) / len(priorities) if priorities else 0,
             "created": self.memories["metadata"]["created"],
             "last_updated": datetime.now().isoformat()
         }

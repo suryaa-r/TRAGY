@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - TRAGY</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="auth-page">
+        <div class="auth-container">
+            <div class="auth-brand">
+                <h1 class="brand-logo">TRAGY</h1>
+                <p class="brand-tagline">Premium Streetwear</p>
+            </div>
+            
+            <div class="auth-form-container">
+                <h2 class="auth-title">Join TRAGY</h2>
+                <p class="auth-subtitle">Create your account</p>
+                
+                <form id="registerForm" class="auth-form">
+                    <div class="form-field">
+                        <input type="text" id="name" class="form-input" placeholder=" " required>
+                        <label for="name" class="form-label">Full Name</label>
+                    </div>
+                    
+                    <div class="form-field">
+                        <input type="email" id="email" class="form-input" placeholder=" " required>
+                        <label for="email" class="form-label">Email Address</label>
+                    </div>
+                    
+                    <div class="form-field">
+                        <input type="password" id="password" class="form-input" placeholder=" " required>
+                        <label for="password" class="form-label">Password</label>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn">
+                        <span class="btn-text">Create Account</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <line x1="20" y1="8" x2="20" y2="14"></line>
+                            <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                    </button>
+                </form>
+                
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+                
+                <div class="auth-footer">
+                    <p>Already have an account?</p>
+                    <a href="login.html" class="auth-link">Sign In</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="auth-background">
+            <div class="bg-pattern"></div>
+        </div>
+    </div>
+    
+    <script src="js/main-db.js"></script>
+    <script src="js/customer-auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SALE - TRAGY</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" class="logo-container">
+                <img src="images/logo.png" alt="TRAGY Logo" class="logo-image">
+                <span class="logo-text">TRAGY</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="collections.html">COLLECTIONS</a></li>
+                <li><a href="sale.html" class="active">SALE</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="cart-icon" onclick="toggleCart()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="m16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main style="padding-top: 120px;">
+        <div class="container">
+            <h1 class="section-title">SALE</h1>
+            <p style="text-align: center; color: var(--dark-gray); margin-bottom: 3rem;">Limited time offers on selected pieces</p>
+
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/hoodie1.jpg" alt="TRAGY Hoodie" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzMzMyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkhPT0RJRTE8L3RleHQ+PC9zdmc+'">
+                        <div class="sale-badge">-30%</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">TRAGEDY HOODIE</h3>
+                        <div class="price">
+                            <span class="original-price">₹129</span>
+                            <span class="sale-price">₹90</span>
+                        </div>
+                        <button class="btn" onclick="addToCart('hoodie-sale-1', 'TRAGEDY HOODIE', 90, 'images/hoodie1.jpg')">ADD TO CART</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/tee2.jpg" alt="TRAGY Tee" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzMzMyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkJMQUNLIFRFRTwvdGV4dD48L3N2Zz4='">
+                        <div class="sale-badge">-25%</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">BLACK TEE</h3>
+                        <div class="price">
+                            <span class="original-price">₹60</span>
+                            <span class="sale-price">₹45</span>
+                        </div>
+                        <button class="btn" onclick="addToCart('tee-sale-1', 'BLACK TEE', 45, 'images/tee2.jpg')">ADD TO CART</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/jacket1.jpg" alt="TRAGY Jacket" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzMzMyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkpBQ0tFVDE8L3RleHQ+PC9zdmc+'">
+                        <div class="sale-badge">-40%</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">URBAN JACKET</h3>
+                        <div class="price">
+                            <span class="original-price">₹199</span>
+                            <span class="sale-price">₹119</span>
+                        </div>
+                        <button class="btn" onclick="addToCart('jacket-sale-1', 'URBAN JACKET', 119, 'images/jacket1.jpg')">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">&times;</button>
+        </div>
+        <div id="cartItems">
+            <p style="color: #999; text-align: center; margin-top: 2rem;">Your cart is empty</p>
+        </div>
+        <div class="cart-total" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+            <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem;">
+                <span>Total: </span>
+                <span id="cartTotal">₹0</span>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SHOP</h3>
+                <ul>
+                    <li><a href="collections.html">Collections</a></li>
+                    <li><a href="sale.html">Sale</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>SUPPORT</h3>
+                <ul>
+                    <li><a href="shipping.html">Shipping Info</a></li>
+                    <li><a href="returns.html">Returns</a></li>
+                    <li><a href="#" onclick="showSizeGuide()">Size Guide</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>COMPANY</h3>
+                <ul>
+                    <li><a href="sustainability.html">Sustainability</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>CONNECT</h3>
+                <ul>
+                    <li><a href="https://wa.me/1234567890" target="_blank">WhatsApp</a></li>
+                    <li><a href="mailto:info@tragy.com">Email</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 TRAGY. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/cart-wishlist.js"></script>
+    <script src="js/footer-functions.js"></script>
+</body>
+</html>
+    <script src="js/main-fixed.js"></script>
+    <script src="js/cart-wishlist.js"></script>
+    <script src="js/footer-functions.js"></script>
+</body>
+</html>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="toggleMobileMenu()"></div>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <a href="/" class="logo-container">
+                <img src="images/logo.png" alt="TRAGY Logo" class="logo-image">
+                <span class="logo-text">TRAGY</span>
+            </a>
+            <button class="cart-close" onclick="toggleMobileMenu()">&times;</button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="/shop">DROP</a></li>
+            <li><a href="/collections">LOOKBOOK</a></li>
+            <li><a href="orders.html">ORDERS</a></li>
+            <li><a href="/about">ABOUT</a></li>
+            <li><a href="/contact">CONTACT</a></li>
+        </ul>
+    </div>

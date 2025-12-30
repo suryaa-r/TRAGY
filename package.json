@@ -1,31 +1,31 @@
 {
-  "name": "tragy-admin-dashboard",
+  "name": "tragy-fashion",
   "version": "1.0.0",
-  "description": "TRAGY Fashion Store with Admin Dashboard",
-  "main": "server-with-db.js",
+  "description": "Premium Streetwear E-commerce Platform - Mobile-first design with iPhone optimization",
+  "main": "server.js",
   "scripts": {
-    "start": "node server-with-db.js",
-    "dev": "nodemon server-with-db.js",
-    "install-deps": "npm install"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "clean": "node server-clean.js",
+    "admin": "node server-with-db.js",
+    "test": "node test_memory_bank.py"
+  },
+  "keywords": ["ecommerce", "fashion", "streetwear", "mobile-first", "responsive"],
+  "author": "TRAGY Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/tragy.git"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^9.0.2",
-    "sqlite3": "^5.1.6",
-    "cors": "^2.8.5"
+    "socket.io": "^4.7.2",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
   },
-  "keywords": [
-    "ecommerce",
-    "fashion",
-    "admin",
-    "dashboard",
-    "nodejs",
-    "sqlite"
-  ],
-  "author": "TRAGY Team",
-  "license": "MIT"
+  "engines": {
+    "node": ">=14.0.0"
+  }
 }
