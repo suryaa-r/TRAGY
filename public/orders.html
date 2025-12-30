@@ -226,6 +226,7 @@
         
         // Ensure mobile menu is hidden on page load
         document.getElementById('mobileMenu').classList.remove('open');
+        document.getElementById('mobileMenuOverlay').classList.remove('active');
         
         // Load live orders from localStorage
         function loadLiveOrders() {
