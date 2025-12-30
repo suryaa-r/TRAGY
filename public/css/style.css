@@ -592,7 +592,7 @@ body {
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: var(--matte-black);
+  color: white;
   padding: 0.5rem;
   min-width: 44px;
   min-height: 44px;
@@ -604,7 +604,7 @@ body {
 }
 
 .mobile-menu-close:hover {
-  background: var(--light-gray);
+  background: rgba(255, 255, 255, 0.1);
   transform: rotate(90deg);
 }
 
