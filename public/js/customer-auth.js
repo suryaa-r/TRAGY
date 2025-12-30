@@ -1,6 +1,20 @@
 // Customer Authentication Logic
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Add test user if no users exist
+    const existingUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+    if (existingUsers.length === 0) {
+        const testUser = {
+            id: 1,
+            name: 'Test User',
+            email: 'test@tragy.com',
+            password: 'test123',
+            createdAt: new Date().toISOString()
+        };
+        localStorage.setItem('registeredUsers', JSON.stringify([testUser]));
+        console.log('Test user created: test@tragy.com / test123');
+    }
+
     // Handle Login Form
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
@@ -17,7 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Check localStorage for registered users
                 const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+                console.log('Registered users:', registeredUsers);
+                console.log('Login attempt:', { email, password });
                 const user = registeredUsers.find(u => u.email === email && u.password === password);
+                console.log('Found user:', user);
 
                 if (user) {
                     const userSession = { id: user.id, name: user.name, email: user.email };
