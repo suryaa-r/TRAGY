@@ -310,23 +310,54 @@ function createUserMenu() {
     const userMenu = document.createElement('div');
     userMenu.id = 'userMenu';
     userMenu.className = 'user-dropdown';
-    userMenu.innerHTML = `
-        <div class="user-menu-content">
-            <div class="user-auth">
-                <h4>Welcome to TRAGY</h4>
-                <p>Sign in to access your account</p>
-            </div>
-            <div class="user-menu-divider"></div>
-            <button onclick="showLogin()" class="user-menu-item">Sign In</button>
-            <button onclick="showRegister()" class="user-menu-item">Create Account</button>
-        </div>
-    `;
     
     const userIcon = document.querySelector('.user-icon');
     if (userIcon) {
         userIcon.style.position = 'relative';
         userIcon.appendChild(userMenu);
     }
+    
+    updateUserMenuState();
+}
+
+function updateUserMenuState() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userMenu = document.getElementById('userMenu');
+    
+    if (userMenu) {
+        if (user) {
+            userMenu.innerHTML = `
+                <div class="user-menu-content">
+                    <div class="user-auth">
+                        <h4>Hi, ${user.name}</h4>
+                        <p>${user.email}</p>
+                    </div>
+                    <div class="user-menu-divider"></div>
+                    <a href="orders.html" class="user-menu-item">My Orders</a>
+                    <button onclick="logout()" class="user-menu-item" style="color: var(--primary-red);">Logout</button>
+                </div>
+            `;
+        } else {
+            userMenu.innerHTML = `
+                <div class="user-menu-content">
+                    <div class="user-auth">
+                        <h4>Welcome to TRAGY</h4>
+                        <p>Sign in to access your account</p>
+                    </div>
+                    <div class="user-menu-divider"></div>
+                    <button onclick="showLogin()" class="user-menu-item">Sign In</button>
+                    <button onclick="showRegister()" class="user-menu-item">Create Account</button>
+                </div>
+            `;
+        }
+    }
+}
+
+function logout() {
+    localStorage.removeItem('user');
+    updateUserMenuState();
+    showNotification('Logged out successfully', 'info');
+    window.location.href = '/login.html';
 }
 
 function showLogin() {
@@ -570,6 +601,8 @@ window.searchFor = searchFor;
 window.viewProductFromSearch = viewProductFromSearch;
 window.showLogin = showLogin;
 window.showRegister = showRegister;
+window.updateUserMenuState = updateUserMenuState;
+window.logout = logout;
 window.closeAllModals = closeAllModals;
 window.showNotification = showNotification;
 window.toggleCart = toggleCart;
