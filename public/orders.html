@@ -224,6 +224,9 @@
             }
         }
         
+        // Ensure mobile menu is hidden on page load
+        document.getElementById('mobileMenu').classList.remove('open');
+        
         // Load live orders from localStorage
         function loadLiveOrders() {
             const orders = JSON.parse(localStorage.getItem('userOrders')) || [];

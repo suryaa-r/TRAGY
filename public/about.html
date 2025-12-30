@@ -291,6 +291,9 @@
             }
         }
         
+        // Ensure mobile menu is hidden on page load
+        document.getElementById('mobileMenu').classList.remove('open');
+        
         document.addEventListener('DOMContentLoaded', function() {
             updateCartCount();
             updateCartDisplay();
