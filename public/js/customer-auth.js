@@ -15,20 +15,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 btnText.textContent = 'Signing In...';
                 btn.disabled = true;
 
-                const response = await fetch('/api/auth/customer/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
+                // Check localStorage for registered users
+                const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+                const user = registeredUsers.find(u => u.email === email && u.password === password);
 
-                const data = await response.json();
-
-                if (data.success) {
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    window.location.href = 'index.html';
+                if (user) {
+                    const userSession = { id: user.id, name: user.name, email: user.email };
+                    localStorage.setItem('user', JSON.stringify(userSession));
+                    showNotification('Login successful!', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
                 } else {
-                    showNotification(data.message, 'error');
+                    showNotification('Invalid email or password.', 'error');
                 }
             } catch (error) {
                 console.error('Login error:', error);
@@ -56,21 +55,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 btnText.textContent = 'Creating Account...';
                 btn.disabled = true;
 
-                const response = await fetch('/api/auth/customer/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, password })
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    window.location.href = 'index.html';
-                } else {
-                    showNotification(data.message, 'error');
+                // Check if user already exists
+                const existingUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+                if (existingUsers.find(user => user.email === email)) {
+                    showNotification('Email already registered. Please use a different email.', 'error');
+                    return;
                 }
+
+                // Create new user
+                const newUser = {
+                    id: Date.now(),
+                    name,
+                    email,
+                    password, // In production, this should be hashed
+                    createdAt: new Date().toISOString()
+                };
+
+                // Save to localStorage
+                existingUsers.push(newUser);
+                localStorage.setItem('registeredUsers', JSON.stringify(existingUsers));
+                
+                // Auto-login the user
+                const userSession = { id: newUser.id, name: newUser.name, email: newUser.email };
+                localStorage.setItem('user', JSON.stringify(userSession));
+                
+                showNotification('Account created successfully!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+                
             } catch (error) {
                 console.error('Registration error:', error);
                 showNotification('An error occurred. Please try again.', 'error');
