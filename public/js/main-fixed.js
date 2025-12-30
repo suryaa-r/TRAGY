@@ -90,6 +90,17 @@ document.addEventListener('DOMContentLoaded', function() {
     createUserMenu();
     loadProducts(); // Load products from database
     
+    // Close mobile menu on browser back button
+    window.addEventListener('popstate', function() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('mobileMenuOverlay');
+        if (mobileMenu && mobileMenu.classList.contains('open')) {
+            mobileMenu.classList.remove('open');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+    
     // Listen for product updates from admin
     window.addEventListener('storage', function(e) {
         if (e.key === 'productUpdate') {
