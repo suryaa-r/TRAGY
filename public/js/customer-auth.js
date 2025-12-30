@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const testUser = {
             id: 1,
             name: 'Test User',
-            email: 'test@tragy.com',
+            email: 'test@gmail.com',
             password: 'test123',
             createdAt: new Date().toISOString()
         };
         localStorage.setItem('registeredUsers', JSON.stringify([testUser]));
-        console.log('Test user created: test@tragy.com / test123');
+        console.log('Test user created: test@gmail.com / test123');
     }
 
     // Handle Login Form
@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (user) {
                     const userSession = { id: user.id, name: user.name, email: user.email };
                     localStorage.setItem('user', JSON.stringify(userSession));
+                    updateUserMenuState();
                     showNotification('Login successful!', 'success');
                     setTimeout(() => {
                         window.location.href = '/index.html';
@@ -72,9 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 btnText.textContent = 'Creating Account...';
                 btn.disabled = true;
 
+                // Validate email is Gmail
+                if (!email.toLowerCase().endsWith('@gmail.com')) {
+                    showNotification('Please use a Gmail address (@gmail.com).', 'error');
+                    return;
+                }
+
                 // Check if user already exists
                 const existingUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
-                if (existingUsers.find(user => user.email === email)) {
+                if (existingUsers.find(user => user.email.toLowerCase().trim() === email.toLowerCase().trim())) {
                     showNotification('Email already registered. Please use a different email.', 'error');
                     return;
                 }
@@ -95,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Auto-login the user
                 const userSession = { id: newUser.id, name: newUser.name, email: newUser.email };
                 localStorage.setItem('user', JSON.stringify(userSession));
+                updateUserMenuState();
                 
                 showNotification('Account created successfully!', 'success');
                 setTimeout(() => {
@@ -120,16 +128,28 @@ function updateUserMenuState() {
     const user = JSON.parse(localStorage.getItem('user'));
     const userMenuContent = document.querySelector('.user-menu-content');
 
-    if (userMenuContent && user) {
-        userMenuContent.innerHTML = `
-            <div class="user-auth">
-                <h4>Hi, ${user.name}</h4>
-                <p>${user.email}</p>
-            </div>
-            <div class="user-menu-divider"></div>
-            <a href="orders.html" class="user-menu-item">My Orders</a>
-            <button onclick="logout()" class="user-menu-item" style="color: var(--primary-red);">Logout</button>
-        `;
+    if (userMenuContent) {
+        if (user) {
+            userMenuContent.innerHTML = `
+                <div class="user-auth">
+                    <h4>Hi, ${user.name}</h4>
+                    <p>${user.email}</p>
+                </div>
+                <div class="user-menu-divider"></div>
+                <a href="orders.html" class="user-menu-item">My Orders</a>
+                <button onclick="logout()" class="user-menu-item" style="color: var(--primary-red);">Logout</button>
+            `;
+        } else {
+            userMenuContent.innerHTML = `
+                <div class="user-auth">
+                    <h4>Welcome to TRAGY</h4>
+                    <p>Sign in to access your account</p>
+                </div>
+                <div class="user-menu-divider"></div>
+                <button onclick="showLogin()" class="user-menu-item">Sign In</button>
+                <button onclick="showRegister()" class="user-menu-item">Create Account</button>
+            `;
+        }
     }
 }
 
